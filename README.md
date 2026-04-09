@@ -14,6 +14,8 @@ A document set and weekend hackathon specification for turning a commercial bank
 
 The full document set is published as a GitHub Pages site with a hub that routes executives, engineers, and hackathon participants to the right starting point. **That's the recommended way to read the material.**
 
+> **▶ Prefer to watch first?** [Walkthrough on Loom](https://www.loom.com/share/8e1d2384a0e642e8896f36a2a60927d9) — a tour of the document set and the business case behind it.
+
 ---
 
 ## What's in this repo

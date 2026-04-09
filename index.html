@@ -78,6 +78,81 @@
   .intro strong { color: var(--gold-bright); }
   .intro p { margin: 0; }
 
+  .video-cta {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    padding: 22px 28px;
+    background: var(--ink);
+    color: white;
+    border-radius: 12px;
+    text-decoration: none;
+    margin: 0 0 48px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  }
+  .video-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.18);
+  }
+  .video-cta .play-icon {
+    flex-shrink: 0;
+    width: 58px;
+    height: 58px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.15s ease;
+  }
+  .video-cta:hover .play-icon {
+    transform: scale(1.05);
+  }
+  .video-cta .play-icon svg {
+    width: 22px;
+    height: 22px;
+    fill: #1a1a2e;
+    margin-left: 4px;
+  }
+  .video-cta .cta-content {
+    flex-grow: 1;
+    min-width: 0;
+  }
+  .video-cta .cta-label {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gold-bright);
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    margin-bottom: 5px;
+  }
+  .video-cta .cta-title {
+    font-size: 19px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 6px;
+    letter-spacing: -0.005em;
+  }
+  .video-cta .cta-desc {
+    font-size: 13.5px;
+    color: #b8b8c8;
+    line-height: 1.5;
+  }
+  .video-cta .cta-host {
+    flex-shrink: 0;
+    color: var(--gold-bright);
+    font-weight: 700;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding-left: 10px;
+  }
+  @media (max-width: 680px) {
+    .video-cta { flex-wrap: wrap; gap: 14px; padding: 20px 22px; }
+    .video-cta .cta-host { flex-basis: 100%; padding-left: 0; text-align: right; }
+  }
+
   .section-label {
     text-transform: uppercase;
     letter-spacing: 0.14em;
@@ -278,6 +353,20 @@
 <div class="intro">
   <p>Every commercial bank sits on decades of credit memos containing proprietary information no competitor has — <strong>your</strong> borrowers, <strong>your</strong> losses, <strong>your</strong> analysts' judgments. Almost none of it is queryable. This document set makes the business case for activating that dormant asset, shows the architecture that makes it possible, and scopes a concrete weekend demo that proves the critical link.</p>
 </div>
+
+<a class="video-cta" href="https://www.loom.com/share/8e1d2384a0e642e8896f36a2a60927d9" target="_blank" rel="noopener">
+  <div class="play-icon">
+    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <path d="M8 5v14l11-7z"/>
+    </svg>
+  </div>
+  <div class="cta-content">
+    <div class="cta-label">Watch first</div>
+    <div class="cta-title">A walkthrough of the document set</div>
+    <div class="cta-desc">The business case and how the three documents fit together. A good starting point if you'd rather watch than read.</div>
+  </div>
+  <div class="cta-host">Loom →</div>
+</a>
 
 <div class="section-label">The document set</div>
 
