@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Credit Memo Refinery — Executive Brief</title>
+<style>
+  :root {
+    --bg: #fafaf9;
+    --ink: #1a1a2e;
+    --muted: #5a5a6e;
+    --accent: #2d5a7b;
+    --accent-soft: #e8eef3;
+    --gold: #a67c2e;
+    --gold-bright: #f0c674;
+    --gold-soft: #fdf6e8;
+    --border: #d8d8d0;
+    --card-bg: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.55;
+    margin: 0;
+    padding: 0;
+    font-size: 15px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 52px 44px 60px;
+  }
+  header.hero {
+    border-bottom: 2.5px solid var(--ink);
+    padding-bottom: 18px;
+    margin-bottom: 26px;
+  }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-size: 32px;
+    line-height: 1.1;
+    margin: 0 0 8px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+  .subtitle {
+    font-size: 14px;
+    color: var(--muted);
+    margin: 0;
+    font-style: italic;
+  }
+  h2 {
+    font-size: 17px;
+    margin-top: 28px;
+    margin-bottom: 10px;
+    font-weight: 700;
+    color: var(--ink);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 5px;
+    letter-spacing: -0.005em;
+  }
+  p { margin: 0 0 12px; }
+  ul { padding-left: 20px; margin: 0 0 12px; }
+  li { margin-bottom: 5px; }
+  strong { color: var(--ink); }
+  em { color: var(--muted); font-style: italic; }
+  a { color: var(--accent); }
+
+  .pop {
+    background: var(--ink);
+    color: var(--gold-bright);
+    font-weight: 700;
+    padding: 1px 7px;
+    border-radius: 3px;
+    font-size: 0.94em;
+    white-space: nowrap;
+  }
+
+  .io-row {
+    background: var(--accent-soft);
+    padding: 12px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    margin: 14px 0 0;
+    border-left: 3px solid var(--accent);
+  }
+  .io-row strong { color: var(--accent); }
+
+  table.compare {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0 6px;
+    font-size: 13.5px;
+    background: var(--card-bg);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  }
+  table.compare th {
+    text-align: left;
+    padding: 10px 14px;
+    background: var(--ink);
+    color: white;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.02em;
+  }
+  table.compare td {
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.4;
+  }
+  table.compare tr:last-child td { border-bottom: none; }
+  table.compare td:first-child {
+    font-weight: 600;
+    background: var(--accent-soft);
+    width: 30%;
+  }
+  .table-note {
+    font-size: 12px;
+    color: var(--muted);
+    font-style: italic;
+    text-align: right;
+    margin-top: 4px;
+  }
+
+  .decisions { counter-reset: dec; margin-top: 14px; }
+  .decision {
+    counter-increment: dec;
+    position: relative;
+    padding: 12px 18px 12px 50px;
+    margin-bottom: 10px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--gold);
+    border-radius: 5px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+  .decision::before {
+    content: counter(dec);
+    position: absolute;
+    left: 14px;
+    top: 12px;
+    width: 26px;
+    height: 26px;
+    background: var(--gold);
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .decision strong { color: var(--ink); }
+
+  footer {
+    margin-top: 36px;
+    padding-top: 16px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  @media (max-width: 640px) {
+    .page { padding: 36px 22px 48px; }
+    h1 { font-size: 26px; }
+    table.compare { font-size: 12.5px; }
+    .decision { padding-left: 46px; }
+  }
+  @media print {
+    body { background: white; font-size: 10.5pt; line-height: 1.45; }
+    .page { padding: 0.5in; max-width: 100%; }
+    @page { margin: 0.5in; }
+    h1 { font-size: 22pt; }
+    h2 { font-size: 13pt; margin-top: 16px; }
+    .hero { margin-bottom: 16px; padding-bottom: 10px; }
+    .decision, table.compare, .io-row { break-inside: avoid; }
+    h2 { break-after: avoid; }
+    .pop { background: #1a1a2e !important; color: #f0c674 !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="hero">
+  <div class="eyebrow">Executive Brief</div>
+  <h1>Credit Memo Refinery</h1>
+  <p class="subtitle">One page. Read in three minutes.</p>
+</header>
+
+<h2>The problem</h2>
+<p>A mid-size commercial bank has <span class="pop">20,000+ credit memos</span> sitting in file shares. Every one of them contains proprietary information — our borrowers, our collateral decisions, our analysts' judgments, our realized losses — and none of it is queryable.</p>
+
+<p>Loan officers lose deals to competitors who price sharper because their comp data is better. Credit analysts re-extract the same fields from the same documents on every annual review. Portfolio managers cannot answer "which of my current borrowers look like the ones that defaulted in 2008?" without a multi-week project. Exam teams rebuild concentration and vintage reports from scratch every quarter.</p>
+
+<p>A fully-loaded credit memo takes <span class="pop">15 to 40 analyst hours</span> to produce. Each annual review re-touches the same data. A regulatory exam cycle is another <span class="pop">40 to 200 hours</span> of manual extraction. Multiply by 20,000 archived memos and the dormant asset is worth <span class="pop">eight figures in analyst time</span> alone — plus an unknowable sum in deals lost to faster, better-informed competitors.</p>
+
+<h2>Solution pattern</h2>
+<p>A small team of specialized agents, one orchestrator, one verifier. Not code — a pattern.</p>
+<ul>
+  <li><strong>Orchestrator</strong> reads each page and routes it by content type.</li>
+  <li><strong>Specialists</strong> — form, table, narrative, visual — each handle one kind of content, with multiple methods and fallbacks.</li>
+  <li><strong>Proofreader</strong> runs arithmetic checks against the extracted data: sources equal uses, assets minus liabilities equal net worth, DSCRs reconcile across pages. Nothing ships until the math holds.</li>
+  <li><strong>Supervisor</strong> handles flagged errors — retry with a different method or escalate.</li>
+</ul>
+
+<div class="io-row">
+  <strong>Input:</strong> a PDF credit memo. &nbsp; <strong>Output:</strong> structured JSON with every field linked to a specific source page, plus a verification report. &nbsp; <strong>Human checkpoint:</strong> one — exception triage when the supervisor cannot reconcile automatically.
+</div>
+
+<h2>Before and after</h2>
+<table class="compare">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Today</th>
+      <th>With the refinery</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Time per memo</td><td>15–40 analyst hours</td><td>Minutes, unattended</td></tr>
+    <tr><td>Cost per memo</td><td>Hundreds of dollars in analyst time</td><td>Cents in compute</td></tr>
+    <tr><td>Verifiability</td><td>"Trust the analyst"</td><td>Arithmetic reconciled, page-level provenance</td></tr>
+    <tr><td>Cross-memo query</td><td>File share search, manual linking</td><td>Structured query</td></tr>
+    <tr><td>Exam prep</td><td>40–200 hours per cycle</td><td>Hours</td></tr>
+    <tr><td>Error tracking</td><td>None — no audit trail</td><td>Bounded by an explicit check set</td></tr>
+  </tbody>
+</table>
+<div class="table-note">Numbers are representative for a mid-size commercial lender. The shape of the improvement is the point.</div>
+
+<h2>Key design decisions</h2>
+
+<div class="decisions">
+  <div class="decision">
+    <strong>The proofreader extracts nothing.</strong> Most teams merge extraction and validation. We separate them, because an extractor cannot catch its own mistakes. A dedicated verification role — running real arithmetic against real expected values — turns raw AI output into data a risk organization will trust.
+  </div>
+  <div class="decision">
+    <strong>Content-type routing, not a monolithic pass.</strong> A single AI call over the whole document works, but failure modes are hidden inside a confident-looking answer. Routing each page to a specialist by content type exposes failures where they can be caught and recovered. This is what makes the error-recovery story credible.
+  </div>
+  <div class="decision">
+    <strong>The contract is arithmetic, not vibes.</strong> Every acceptance check in the demo is a specific equation with a specific expected value drawn from the real document. AI output looks trustworthy; arithmetic is the only way to prove it actually is.
+  </div>
+</div>
+
+<h2>Scope — what the demo deliberately does not do</h2>
+<p>The weekend demo builds the refinery itself on one sample memo. It does not build the data warehouse, the downstream insight agents, template-drift handling across memo versions, multi-document linking, persistent storage, authentication, or compliance workflows.</p>
+<p>This is deliberate. Proving the hardest and least-proven link — extraction with verification — is the credibility anchor for the entire business case. Overreaching would produce half-baked work on everything and a clean demo of nothing. Strategic judgment here is knowing that a narrow, trustworthy demo wins an investor conversation that a broad, hand-wavy demo loses.</p>
+
+<footer>
+  Companion to the <a href="credit-memo-extraction-explainer.html">Strategic Brief</a> and the <a href="demo-requirements.html">Demo Requirements</a>.
+</footer>
+
+</div>
+</body>
+</html>

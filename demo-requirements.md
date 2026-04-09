@@ -1,64 +1,79 @@
 # Credit Memo Demo — Requirements
 
-**Version:** 1.0
+**Version:** 2.0 (contract/reference split)
 **Scope:** Weekend hackathon
 **Input:** `Sample-Enhanced-Memo.pdf` (22 pages, 1.1 MB)
 **Companion to:** [Strategic Brief](credit-memo-extraction-explainer.html) — frozen as the source of high-level requirements
 
 ---
 
-## 1. Purpose
+## How to read this document
+
+This document has two zones.
+
+**The Contract** is locked. Every implementation must satisfy everything in it, regardless of language, framework, or architectural decomposition. Anything the audience sees at the demo lives here — the input, the output schema, the arithmetic checks, the deliverables.
+
+**Reference Implementation** is guidance only. It exists to help teams get started, but any layer — language, libraries, agent framework, even the specialist-team architecture itself — can be substituted for an equivalent that hits The Contract. If in doubt, the proofreader checks in §8 are the ultimate arbiter of whether an implementation satisfies the requirements.
+
+---
+
+## Pick a format
+
+This demo can run in two modes. Decide on Saturday morning at kickoff, after the group has read The Contract together.
+
+### Unified team
+*One codebase · One demo*
+
+- **Structure:** one shared repo, split into roles (extraction, agent, validator, UX/demo)
+- **Output:** one integrated demo at the end
+- **Best for:** smaller groups (2–4 people), teams that haven't worked together before, tight coordination
+- **Strength:** fastest path to a single polished story
+- **Risk:** a bug in one layer breaks the whole demo
+
+### Bake-off
+*Multiple stacks · Same contract*
+
+- **Structure:** 2–3 independent pairs, each picking their own stack, architecture, and approach
+- **Output:** each pair demos for 5 minutes, followed by a comparative retrospective
+- **Best for:** larger groups (5–8 people), mixed skill backgrounds, learning-focused hackathons
+- **Strength:** direct comparison — which stack was fastest, which caught the hardest edge cases, which recovery path was cleverest
+- **Risk:** more scaffolding up front; if one pair's implementation breaks, the others still work
+
+*The rest of this document works for either mode.*
+
+---
+
+# THE CONTRACT — Zone 1 of 2 (LOCKED)
+
+*Everything in this zone must be satisfied by every implementation, regardless of technology choice, architecture, or format. The audience sees all of this at the demo.*
+
+---
+
+## 1. Purpose [LOCKED]
 
 Prove the refinery works. One sample credit memo goes in; verified structured data comes out. Every field traces back to a page in the source PDF. Every number reconciles against the proofreader's arithmetic checks. Nothing silently wrong.
 
-This is the credibility anchor for Stage 2 of the supply chain described in the strategic brief. Stages 1, 3, and 4 are acknowledged and out of scope for this demo.
+This is the credibility anchor for Stage 2 of the supply chain in the strategic brief. Stages 1, 3, and 4 are acknowledged and out of scope.
 
----
+## 2. Supply chain position [LOCKED]
 
-## 2. Success criteria
+The demo scopes to **Stage 2 (Refinery)** of the four-stage supply chain:
 
-The demo succeeds if at the end of Sunday we can, on a laptop:
+```
+[Archive] → [Refinery] → [Data Estate] → [Factory]
+             ~~~~~~~~
+             WEEKEND
+```
 
-1. Drop `Sample-Enhanced-Memo.pdf` into the system and produce a JSON document matching the schema in §7.
-2. Every populated field carries a page-level source reference back to the PDF.
-3. The proofreader emits a validation report; all **mandatory** checks in §8 pass.
-4. At least one reconciler retry is visible in the output (first attempt wrong → fallback corrected).
-5. We can walk through the five-minute demo script in §12 without hedging.
+Stages 1, 3, and 4 are acknowledged but out of scope. See the strategic brief diagram for full context.
 
----
-
-## 3. In scope / Out of scope
-
-### In scope
-- One PDF, processed end-to-end
-- Mail sorter page routing
-- Form specialist (header fields, pages 1–2)
-- Spreadsheet specialist (three target tables)
-- Reading specialist (narrative sections)
-- Vision specialist (basic, used as a retry fallback)
-- Proofreader with mandatory arithmetic checks
-- Supervisor with one retry path
-- Minimal UI or CLI for the demo
-- Source-page provenance per field
-
-### Out of scope
-- Any Stage 3 (data estate) work
-- Any Stage 4 (insight agents)
-- Multiple documents or cross-memo linking
-- AuthN/AuthZ, multi-user, persistence beyond local files
-- Production observability, cost tracking, SLAs
-- Template drift handling across memo versions
-- PII handling, anonymization, compliance review
-- Exhaustive field extraction — only what's needed to run §8
-
----
-
-## 4. The sample document
+## 3. The sample document [LOCKED]
 
 22-page MBFS Credit Memorandum for a $514,500 multifamily real estate refinance in Philadelphia. Contains the full mixed-content profile the refinery needs to handle.
 
 | Field | Value |
 |---|---|
+| File | `Sample-Enhanced-Memo.pdf` (22 pages, 1.1 MB) |
 | Borrower | Real estate holding company |
 | Loan | $514,500 @ 4.75% fixed, 5yr / 30yr amort |
 | Collateral | Multifamily 5+ unit, est. value $735,000, 70% LTV |
@@ -68,89 +83,95 @@ The demo succeeds if at the end of Sunday we can, on a laptop:
 | Global DSCR | 1.59x (2021), 1.60x pro-forma |
 | Gross rents | $53,400/yr ($4,450/mo across six units) |
 
----
+## 4. Scope [LOCKED]
 
-## 5. Architecture
+### In scope
+- Processing one PDF end-to-end
+- Content-aware page routing
+- Header field extraction
+- Three financial tables
+- Narrative sections (strengths, weaknesses, analyst notes, loan purpose)
+- Arithmetic verification with a reported result per check
+- At least one observable recovered error
+- Structured JSON output matching the §7 schema
+- Source-page provenance for every populated field
+- A five-minute demo walkthrough
 
-Seven roles, per the strategic brief:
+### Out of scope
+- Any Stage 3 (data estate) work
+- Any Stage 4 (insight agents)
+- Multiple documents or cross-memo linking
+- AuthN/AuthZ, multi-user, persistence beyond local files
+- Production observability, cost tracking, SLAs
+- Template drift across memo versions
+- PII handling, anonymization, compliance review
+- Exhaustive field extraction — only what's needed to run §8
 
-| Role | Agent name | Responsibility |
-|---|---|---|
-| Mail Sorter | Orchestrator | Classifies and routes each page |
-| Form Specialist | Key-value agent | Labeled fields, header tables |
-| Spreadsheet Specialist | Table agent | Ruled financial tables |
-| Reading Specialist | Narrative agent | Paragraphs, lists, analyst notes |
-| Visual Specialist | Vision agent | Charts, infographics, retry path |
-| Proofreader | Validator agent | Arithmetic + cross-page checks |
-| Supervisor | Reconciler agent | Retry / fallback routing |
+## 5. Success criteria [LOCKED]
 
-Diagram lives in the strategic brief (`credit-memo-extraction-explainer.html#technical`).
+At the end of Sunday, the demo must produce the following observable outcomes, regardless of how the system is built:
 
----
+1. Running the system on `Sample-Enhanced-Memo.pdf` produces a JSON document matching the schema in §7.
+2. Every populated field carries a source-page reference back to the PDF.
+3. All mandatory checks in §8 pass, and the validation report is visible in the demo surface.
+4. At least one recovered error is visible in the output — a case where an initial extraction attempt produced an incorrect value, the incorrect value was detected, and a corrected value was produced.
+5. A reviewer can point at any field in the output and be shown the specific page of the source PDF it came from.
+6. A five-minute walkthrough maps each demo step back to the strategic brief's four-stage supply chain.
 
-## 6. Functional requirements
+## 6. Functional outcomes [LOCKED]
 
-### F1 — Page routing (Mail Sorter)
+What must be true of the system when the demo runs, **regardless of how the system is built**. An implementation that uses a single LLM pass, a specialist-team architecture, a state machine, or any other pattern is acceptable as long as every outcome below is observable in the final output.
 
-Classify each of the 22 pages into one or more of: `form`, `table`, `narrative`, `visual`, `skip`. Expected routing for the sample:
+### FO1 — Content-aware routing
 
-- **Form:** 1, 2, 19, 21
-- **Table:** 4, 5, 6, 7, 12, 17, 20
-- **Narrative:** 2, 3, 8, 9, 18, 19
-- **Visual:** 10, 11, 13–16
-- **Skip:** 22
+Every page of the source PDF must be classified by content type (at minimum: `form`, `table`, `narrative`, `visual`, `skip`), and the classification must influence how that page is extracted. An implementation that processes every page with one tool and ignores content type does not satisfy this outcome.
 
-Acceptance: per-page label JSON written to `routing.json`.
+### FO2 — Header field extraction
 
-### F2 — Header extraction (Form Specialist)
+The following fields must appear in the output with correct values drawn from pages 1–2. Each field must carry a source-page reference.
 
-Extract from pages 1–2 into the schema:
+- Memo date, credit union, relationship manager, analyst, borrower name
+- Loan amount, rate, rate type, term, amortization
+- Collateral type, address, estimated value, LTV, purchase price, lien position
+- NAICS code, risk rating, aggregate relationship
+- Borrower DSCR and global DSCR (both actual and pro-forma)
+- Guarantors: name, credit score, ownership percentage
+- Sources & Uses rows with amounts
 
-- [ ] Memo date, credit union, RM, analyst, borrower name
-- [ ] Loan amount, rate, rate type, term, amortization
-- [ ] Collateral type, address, estimated value, LTV, purchase price, lien position
-- [ ] NAICS code, MBFS risk rating, aggregate relationship
-- [ ] Borrower DSCR, global DSCR (both actual and pro-forma)
-- [ ] Guarantors: name, credit score, ownership %
-- [ ] Sources & Uses rows with amounts
+### FO3 — Financial table extraction
 
-### F3 — Financial table extraction (Spreadsheet Specialist)
+Three tables must be extracted into structured form (column → value) with correct numeric values and source-page references:
 
-Extract three target tables. Scope is deliberately narrow — we're proving the mechanism, not being exhaustive.
+- **Guarantor 1 Net Worth** (page 4)
+- **Guarantor 1 Personal Cash Flow** (page 5) — must include the 2018, 2019, 2020, and Projected columns
+- **Global Cash Flow** (page 12) — must include the Borrower, Guarantor 1, Guarantor 2, and Total rows across 2019, 2020, 2021, and Projected columns
 
-- [ ] **Guarantor 1 Net Worth** (page 4) — assets, liabilities, adjustments, stated & adjusted net worth
-- [ ] **Guarantor 1 Personal Cash Flow** (page 5) — 2018/2019/2020/Projected columns, income/deductions/debt service/DSCR rows
-- [ ] **Global Cash Flow** (page 12) — borrower + two guarantors + totals across 2019/2020/2021/Projected
+### FO4 — Narrative extraction
 
-### F4 — Narrative extraction (Reading Specialist)
+The following narrative elements must be extracted from the appropriate pages with source-page references:
 
-Extract from pages 3, 8, 9, 18, 19:
+- Borrower background paragraph
+- Operating statement narrative (rent history, expenses)
+- Strengths list (as discrete items)
+- Weaknesses list (as discrete items)
+- Analyst notes / CU recommendations
+- Stated loan purpose
 
-- [ ] Borrower background paragraph
-- [ ] Operating statement narrative
-- [ ] Strengths list
-- [ ] Weaknesses list
-- [ ] Analyst notes / CU recommendations
-- [ ] Loan purpose statement
+### FO5 — Arithmetic verification
 
-### F5 — Proofreader (Validator)
+All mandatory checks from §8 must be executed against the extracted data and reported in the output, with expected value, observed value, and pass/fail status. Implementations may add additional checks beyond §8 but must not remove any.
 
-Implement each check from §8 as a pure function taking the extracted `CreditMemo` and returning a `ValidationCheck`. Run all checks after extraction completes.
+### FO6 — Observable error recovery
 
-### F6 — Supervisor / Reconciler
+The demo must include at least one observable case where an initial extraction attempt produced an incorrect value, the incorrect value was detected, and a corrected value was produced. The recovery must be visible in the final output — a reviewer should be able to see that the system tried one approach, the result failed a check or was flagged, and a different approach succeeded. **How** the detection and correction happen is an implementation choice.
 
-At minimum one retry path: if the Spreadsheet Specialist's first method fails a proofreader check, retry the affected page with a fallback (camelot stream or Vision Specialist rendering). Log which path produced the final value.
+### FO7 — Structured output with provenance
 
-### F7 — Output
+The final output must match the schema in §7. Every populated field must carry a reference back to the source page and the method/agent/tool that produced it. A reviewer must be able to ask "where did this value come from?" for any field and receive a specific page answer.
 
-Emit two artifacts:
+## 7. Output schema [LOCKED]
 
-1. `sample-output.json` — full `CreditMemo` structured output
-2. `sample-validation.html` — human-readable validation report with per-field provenance
-
----
-
-## 7. Output schema
+The schema below is expressed in Python/Pydantic. Teams using other languages must produce JSON that is **shape-compatible** — same field names, same structure, same nesting. The schema is deliberately flat and minimal.
 
 ```python
 from pydantic import BaseModel, Field
@@ -158,8 +179,8 @@ from typing import Literal
 
 class SourceRef(BaseModel):
     page: int
-    agent: Literal["form", "table", "narrative", "visual"]
-    method: str  # e.g. "pdfplumber-lattice", "claude-vision"
+    agent: str          # e.g. "form", "table", "narrative", "visual", or custom
+    method: str         # e.g. "pdfplumber-lattice", "claude-vision", "regex"
     confidence: float = 1.0
 
 class Field_(BaseModel):
@@ -188,7 +209,7 @@ class Collateral(BaseModel):
 
 class FinancialTable(BaseModel):
     name: str
-    rows: list[dict]  # column name -> value
+    rows: list[dict]    # column name -> value
     source: SourceRef
 
 class ValidationCheck(BaseModel):
@@ -215,11 +236,11 @@ class CreditMemo(BaseModel):
     validation: list[ValidationCheck]
 ```
 
----
+## 8. Proofreader checks [LOCKED]
 
-## 8. Proofreader checks
+Mandatory arithmetic checks against the sample document. Expected values are the ground truth — if an implementation produces something different, either the extraction is wrong or the check is wrong. Either way, the demo does not ship until both agree.
 
-Mandatory arithmetic checks against the sample document. Expected values are the ground truth — if the extraction produces something else, either the extraction is wrong or the check is wrong. Either way, the demo doesn't ship until both agree.
+Tolerance: ±1 unit for integer dollar totals, ±0.01 for ratios.
 
 | # | Check | Formula | Expected |
 |---|---|---|---|
@@ -233,114 +254,141 @@ Mandatory arithmetic checks against the sample document. Expected values are the
 | C8 | Rent roll sum | `sum(unit_rents) * 12` | `($800+$650+$650+$800+$750+$800) × 12 = $53,400` |
 | C9 | Cross-page rents | narrative (p8) == transactional table (p17) | `$53,400` on both |
 
-Tolerance: ±1 unit for integer dollar totals, ±0.01 for ratios.
+## 9. Deliverables [LOCKED]
+
+Every implementation — whether in unified-team or bake-off mode — delivers the following by end of weekend:
+
+- [ ] Git repository with a one-command bootstrap (`make demo`, `npm run demo`, or equivalent)
+- [ ] `README.md` with setup, run instructions, and how to regenerate the sample output
+- [ ] A short statement of which stack, framework, and architecture the implementation used and why
+- [ ] Generated `sample-output.json` committed alongside the source PDF, matching the §7 schema
+- [ ] Generated validation report showing all §8 checks with expected, observed, and status
+- [ ] A demo surface (CLI, UI, or static HTML) capable of running the five-minute walkthrough
+- [ ] A five-minute recorded demo video (insurance policy against demo-day failures)
+- [ ] A one-page retrospective: what worked, what didn't, what to build next
 
 ---
 
-## 9. Tech stack
+# REFERENCE IMPLEMENTATION — Zone 2 of 2 (GUIDANCE ONLY)
 
-| Layer | Choice | Rationale |
+*Everything in this zone is guidance. It exists to help teams get started, reduce decision fatigue on Saturday morning, and provide a known-good reference point. Any section can be ignored, replaced, or adapted — as long as The Contract above is satisfied.*
+
+---
+
+## 10. Reference architecture [REFERENCE]
+
+The strategic brief describes a specialist-team pattern. It is the recommended starting point, not a requirement.
+
+| Role | Responsibility |
+|---|---|
+| Mail Sorter (Orchestrator) | Classifies each page and routes it to the right specialist |
+| Form Specialist | Labeled fields, header tables, key-value extraction from pages 1–2 |
+| Spreadsheet Specialist | Ruled financial tables; typically has multiple methods with fallback |
+| Reading Specialist | Paragraphs, lists, analyst commentary |
+| Visual Specialist | Charts, infographics, photos; also serves as a retry path |
+| **Proofreader** | **Quality gate.** Runs the §8 arithmetic checks against the extracted data |
+| Supervisor (Reconciler) | Handles flagged errors, decides on retry paths |
+
+Alternative patterns that would also satisfy The Contract include:
+
+- A single-LLM-pass approach with a separate validation step
+- A state-machine approach where each page advances through extraction and verification states
+- A pipeline-per-content-type approach
+
+Pick what matches the team's comfort and the problem.
+
+## 11. Reference tech stack [REFERENCE]
+
+Recommended defaults. Substitute freely. The only hard requirement is that **an LLM is used somewhere in the extraction path**, because semantic understanding of the document is the reason this approach works at all.
+
+| Layer | Default | Reasonable alternatives |
 |---|---|---|
-| Language | Python 3.11+ | Best ecosystem for PDF + LLM |
-| LLM | Claude (Opus 4.6 or Sonnet 4.6) | Strong on tables, vision, structured output |
-| Agent framework | Claude Agent SDK | Matches the brief's architecture |
-| PDF text/tables | `pdfplumber` | First choice for ruled tables |
-| PDF rendering | `pymupdf` (fitz) | Fast rasterization for vision fallback |
-| Table fallback | `camelot-py` | Second choice when pdfplumber fails |
-| Schema | `pydantic` v2 | Structured output + JSON |
-| UI | Streamlit **or** FastAPI + minimal HTML | Streamlit for speed; FastAPI if team prefers |
-| Scaffold | `uv` or `poetry` | Fast dep install Saturday morning |
+| Language | Python 3.11+ | TypeScript/Node, Go, Rust — any language with decent PDF and LLM SDK support |
+| LLM | Claude (Opus 4.6 / Sonnet 4.6) | Any frontier model with vision and structured output |
+| Agent framework | Claude Agent SDK | LangGraph, homegrown orchestrator, or no framework at all |
+| PDF text/tables | `pdfplumber` | `pymupdf`, `pdfminer.six`, `tabula-py`, Azure Document Intelligence, AWS Textract |
+| PDF rendering | `pymupdf` (fitz) | `pdf2image`, `wand` |
+| Table fallback | `camelot-py` | LLM vision on the rendered page, `tabula-py` |
+| Schema | `pydantic` v2 | `zod` (TS), `attrs`, dataclasses, hand-rolled JSON schema |
+| UI | Streamlit | FastAPI + minimal HTML, Next.js, CLI only |
+| Scaffold | `uv` or `poetry` | `pnpm`, `cargo`, whatever's in muscle memory |
 
----
+## 12. Reference timeline [REFERENCE]
 
-## 10. Weekend timeline
+A suggested schedule for a team that has not run this before. Bake-off pairs may run their own schedules in parallel.
 
 ### Saturday — Build
 
 | Time | Activity |
 |---|---|
-| 09:00 | Kickoff. Review sample PDF together. Divide tasks. Agree on schema and §8 checks before any code. |
-| 10:00 | Project scaffold. Repo, deps, Claude API keys, Pydantic schemas, end-to-end "hello world" returning an empty `CreditMemo`. |
-| 11:00 | Mail Sorter v1. Single LLM call returning page → label map. |
+| 09:00 | Group kickoff. Read The Contract together. Confirm every §8 check with the PDF open. **Pick format (unified or bake-off).** |
+| 10:00 | Each team scaffolds its repo, verifies API keys, gets an empty `CreditMemo` round-tripping. |
+| 11:00 | First extraction pass: header fields (FO2). Visible output by noon. |
 | 12:00 | Lunch. |
-| 13:00 | Form Specialist. Header extraction from pages 1–2 with structured output. |
-| 15:00 | Spreadsheet Specialist v1. pdfplumber lattice on the three target tables. |
-| 16:30 | Reading Specialist. Strengths/weaknesses/analyst notes. |
-| 17:30 | First integration pass. Run end-to-end, inspect JSON, note breakage. |
-| 18:30 | Dinner. |
+| 13:00 | Financial tables (FO3). Hardest part — expect at least one to misbehave. |
+| 15:00 | Narrative extraction (FO4). Usually quick once LLM plumbing is in place. |
+| 16:30 | First integration pass. Run end-to-end, inspect JSON, note breakage. |
+| 18:00 | Dinner. Celebrate that something works. |
 
 ### Sunday — Verify & Polish
 
 | Time | Activity |
 |---|---|
-| 09:00 | Proofreader. Implement each §8 check as a pure function. At least one should fail on first run — fix upstream. |
-| 11:00 | Supervisor / Reconciler. One retry path: pdfplumber lattice → camelot stream → vision. |
+| 09:00 | Proofreader (FO5). Implement §8 checks as pure functions. Expect at least one to fail on first run. |
+| 11:00 | Error recovery (FO6). Whatever retry path your architecture suggests. |
 | 12:00 | Lunch. |
-| 13:00 | Demo surface. Streamlit or static HTML with source page, extracted JSON, validation report, provenance column. |
-| 15:00 | End-to-end dry run. All mandatory checks pass. At least one reconciler retry visible. |
-| 16:00 | Demo rehearsal. Record the walkthrough twice. |
-| 17:00 | Live demo + retrospective. |
+| 13:00 | Demo surface. Show source pages, extracted values, validation report, provenance. |
+| 15:00 | End-to-end dry run. All §8 checks pass. Recovery observable. Record backup video. |
+| 16:00 | Demo rehearsal. Run the walkthrough twice. |
+| 17:00 | Live demos. In bake-off mode: each pair demos in turn, followed by comparative retrospective. |
 
----
+## 13. Reference team roles [REFERENCE]
 
-## 11. Team structure
+For unified-team mode. Bake-off pairs split responsibilities however they like inside each pair.
 
-Assumes 3–4 people. If smaller, fold Validator into UX.
+- **Extraction lead** — Owns the hardest extraction paths (typically financial tables and the vision fallback). Knows the chosen PDF library well enough to debug merged-header drift in under 15 minutes.
+- **Agent lead** — Owns the orchestration, page routing, and LLM integration. Defines the interface each extraction component exposes.
+- **Validator lead** — Owns the §8 checks, error recovery, and provenance tracking. Quality gate for the demo.
+- **UX/demo lead** — Owns the schema, demo surface, integration runner, and the five-minute demo script. Runs the rehearsal.
 
-- **Extraction lead** — Spreadsheet Specialist + Vision Specialist. Knows `pdfplumber` well.
-- **Agent lead** — Mail Sorter, Form Specialist, Reading Specialist. Claude Agent SDK wiring.
-- **Validator lead** — Proofreader + Supervisor + provenance tracking. Quality gate.
-- **UX/demo lead** — Schema, UI surface, integration runner, demo script.
+## 14. Reference demo script [REFERENCE]
 
----
-
-## 12. Demo script (5 minutes)
+A suggested five-minute walkthrough. Teams may adapt the structure; the content points are what matters.
 
 1. **(30s) The pitch.** "This is Stage 2 of the supply chain from the strategic brief — the refinery that turns a PDF into trustworthy structured data."
 2. **(45s) The input.** Show the sample PDF. Flip through form pages, spreadsheets, narrative, infographic, photos. "One document, every content type."
-3. **(1m) The run.** Drop the file in. Show Mail Sorter routing, specialists working, JSON output appearing.
-4. **(90s) The proofreader.** Open the validation report. Walk through three checks: Sources = Uses, G1 net worth, global DSCR. Show one check that initially failed and how the reconciler recovered. **Money moment.**
-5. **(30s) Provenance.** Click any field, show the source page.
-6. **(45s) Bigger picture.** Return to the brief's supply chain diagram. "We just proved Stage 2. Stages 3 and 4 are the business case." Close.
+3. **(1m) The run.** Drop the file into the demo surface. Show the routing decisions. Show the JSON output appearing.
+4. **(90s) The proofreader.** Open the validation report. Walk through three checks: Sources = Uses, G1 net worth, global DSCR. Show one check that initially failed and how the system recovered. **This is the money moment.**
+5. **(30s) Provenance.** Click any field in the output and show the source page it came from.
+6. **(45s) The bigger picture.** Return to the brief's supply chain diagram. "We just proved Stage 2. Stages 3 and 4 are the business case." Close.
 
----
+**Bake-off variant.** Each pair runs the same 5-minute script. After all pairs have demoed, the group spends 15 minutes on a comparative retrospective: which stack extracted fastest, which caught the hardest edge case (the red `($2,918)` on page 12 is a good benchmark), which recovery path was cleverest, and what each approach would cost to scale to 20,000 memos.
 
-## 13. Stretch goals
+## 15. Stretch goals [REFERENCE]
 
-- Cross-page consistency check (gross rents narrative vs. transactional table)
-- Vision Specialist actually parsing page 10 (IBISWorld infographic)
+- Cross-page consistency checks beyond §8
+- Actually parsing the IBISWorld infographic on page 10 (vision-only path)
 - Side-by-side PDF viewer with extracted fields highlighted on source pages
-- Second retry path using a different LLM model
+- A second retry path using a different LLM or library
 - CSV export of the financial tables
-- Load a second hand-modified memo to show template robustness
+- Load a second hand-modified memo to show robustness to template drift
+- Cost tracking per extraction (tokens, API calls, wall time)
 
 ---
 
-## 14. Risks and mitigations
+## 16. Risks and mitigations
 
 | Risk | Likelihood | Mitigation |
 |---|---|---|
 | Over-scoping field extraction | High | Extract only what §8 needs. Everything else is stretch. |
-| Merged-header drift on page 5 Projected column | High | Expected — this is the demo punchline. Reconciler is the recovery. |
-| Vision specialist eats the weekend on page 10 | Medium | Stretch only. Mail Sorter labels it `skip` for the core demo. |
+| Merged-header drift on page 5 Projected column | High | Expected — this is the demo punchline. Recovery is what you're building. |
+| Vision attempts on page 10 eat all of Sunday | Medium | Stretch only. Route to `skip` for the core demo. |
 | LLM rate limits / API key issues | Medium | Verify access Friday night. Cache LLM responses during dev. |
-| Proofreader passes trivially (same bad source) | Medium | Require cross-agent checks where possible. |
-| Integration breaks 10 min before demo | Always | Record the demo video Sunday morning as backup. |
+| Proofreader passes trivially (same wrong source) | Medium | Prefer cross-agent or cross-page checks. C9 exists for this reason. |
+| Bake-off: contract ambiguity → incompatible outputs | Medium (bake-off only) | Spend the first hour of Saturday walking through §7 and §8 together with the PDF open. |
+| Bake-off: unequal pair sizes or skill levels | Medium (bake-off only) | Pre-balance pairs. Early-finishers help others or attempt stretch goals. |
+| Integration breaks 10 min before demo | Always | Record the demo video Sunday afternoon as backup. |
 
 ---
 
-## 15. Deliverables
-
-- [ ] Git repository with one-command bootstrap (`make demo`)
-- [ ] `README.md` with setup, run, regenerate instructions
-- [ ] Source code for all seven agent roles
-- [ ] Pydantic schemas matching §7
-- [ ] Proofreader checks as testable pure functions
-- [ ] `sample-output.json` committed next to the source PDF
-- [ ] `sample-validation.html` committed
-- [ ] Five-minute recorded demo video (backup)
-- [ ] One-page retrospective: what worked, what didn't, what to build next
-
----
-
-*Requirements v1.0 · Companion to the Strategic Brief · Hackathon scope*
+*Requirements v2.0 · Contract/Reference split · Companion to the Strategic Brief · Hackathon scope*
