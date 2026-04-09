@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekend Demo Requirements — Credit Memo Refinery</title>
+<style>
+  :root {
+    --bg: #fafaf9;
+    --ink: #1a1a2e;
+    --muted: #5a5a6e;
+    --accent: #2d5a7b;
+    --accent-soft: #e8eef3;
+    --gold: #a67c2e;
+    --gold-bright: #f0c674;
+    --gold-soft: #fdf6e8;
+    --border: #d8d8d0;
+    --card-bg: #ffffff;
+    --code-bg: #0f1020;
+    --code-ink: #e8e8f0;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.65;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 64px 40px 80px;
+  }
+  header.hero {
+    border-bottom: 3px solid var(--ink);
+    padding-bottom: 28px;
+    margin-bottom: 28px;
+  }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 12px;
+    color: var(--muted);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  h1 {
+    font-size: 38px;
+    line-height: 1.12;
+    margin: 0 0 14px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+  }
+  .subtitle {
+    font-size: 18px;
+    color: var(--muted);
+    margin: 0;
+    max-width: 680px;
+    line-height: 1.5;
+  }
+  h2 {
+    font-size: 24px;
+    margin-top: 52px;
+    margin-bottom: 14px;
+    font-weight: 700;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  h3 {
+    font-size: 17px;
+    margin-top: 28px;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  p { margin: 0 0 14px; }
+  ul, ol { padding-left: 22px; margin: 0 0 14px; }
+  li { margin-bottom: 6px; }
+  strong { color: var(--ink); }
+  em { color: var(--muted); font-style: normal; font-weight: 500; }
+  a { color: var(--accent); }
+
+  .badge {
+    display: inline-block;
+    padding: 4px 11px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    vertical-align: middle;
+    line-height: 1;
+  }
+  .badge.locked {
+    background: var(--ink);
+    color: var(--gold-bright);
+  }
+  .badge.reference {
+    background: #ffffff;
+    color: var(--accent);
+    border: 1.5px solid var(--accent);
+  }
+
+  .related {
+    padding: 16px 22px;
+    background: var(--accent-soft);
+    border-radius: 6px;
+    font-size: 14px;
+    margin-bottom: 28px;
+    border-left: 3px solid var(--accent);
+  }
+  .related strong { color: var(--accent); }
+
+  .how-to-read {
+    padding: 22px 26px;
+    background: var(--gold-soft);
+    border: 1.5px solid var(--gold);
+    border-radius: 10px;
+    margin: 28px 0;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .how-to-read .label {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+  .how-to-read p { margin-bottom: 10px; }
+  .how-to-read p:last-child { margin-bottom: 0; }
+  .how-to-read strong { color: var(--gold); }
+
+  .format-choice {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .format-card {
+    padding: 22px 26px;
+    border: 2px solid var(--border);
+    border-radius: 10px;
+    background: var(--card-bg);
+  }
+  .format-card h3 {
+    margin-top: 0;
+    margin-bottom: 4px;
+    color: var(--ink);
+    font-size: 19px;
+  }
+  .format-card .tagline {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .format-card ul {
+    padding-left: 20px;
+    margin-bottom: 0;
+    font-size: 14px;
+  }
+  .format-card li {
+    margin-bottom: 6px;
+    color: var(--muted);
+  }
+  .format-card li strong { color: var(--ink); }
+
+  .zone-divider {
+    margin: 70px 0 0;
+    padding: 28px 32px;
+    border-radius: 12px;
+  }
+  .zone-divider .zone-label {
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 12px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .zone-divider h2 {
+    margin: 0;
+    padding: 0;
+    font-size: 26px;
+    display: block;
+  }
+  .zone-divider p {
+    margin: 10px 0 0;
+    font-size: 14.5px;
+    line-height: 1.55;
+  }
+  .zone-divider.contract {
+    background: var(--ink);
+    color: #ffffff;
+  }
+  .zone-divider.contract .zone-label { color: var(--gold-bright); }
+  .zone-divider.contract h2 { color: #ffffff; }
+  .zone-divider.contract p { color: #c4c4d0; }
+  .zone-divider.reference {
+    background: var(--accent-soft);
+    border: 2px solid var(--accent);
+  }
+  .zone-divider.reference .zone-label { color: var(--accent); }
+  .zone-divider.reference h2 { color: var(--ink); }
+  .zone-divider.reference p { color: var(--muted); }
+
+  .callout {
+    background: var(--accent-soft);
+    border-left: 4px solid var(--accent);
+    padding: 20px 24px;
+    margin: 24px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .callout .label {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+
+  .scope {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+  .scope-col {
+    padding: 20px 24px;
+    border-radius: 8px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+  }
+  .scope-col.in { border-top: 3px solid var(--accent); }
+  .scope-col.out { border-top: 3px solid #999; }
+  .scope-col h3 { margin-top: 0; }
+  .scope-col.out h3 { color: var(--muted); }
+  .scope-col ul { margin-bottom: 0; }
+
+  .facts {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 24px;
+    margin: 20px 0;
+  }
+  .facts dl { margin: 0; display: grid; grid-template-columns: 160px 1fr; gap: 6px 16px; font-size: 14px; }
+  .facts dt { color: var(--muted); font-weight: 600; }
+  .facts dd { margin: 0; color: var(--ink); }
+
+  .outcomes .fo {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--ink);
+    border-radius: 6px;
+    padding: 18px 22px;
+    margin-bottom: 12px;
+  }
+  .outcomes .fo h4 {
+    margin: 0 0 8px;
+    font-size: 15px;
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .outcomes .fo h4 .code {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--gold-bright);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-family: "SF Mono", Monaco, monospace;
+    font-weight: 700;
+    margin-right: 10px;
+    letter-spacing: 0.03em;
+  }
+  .outcomes .fo p { margin: 0 0 8px; font-size: 14px; line-height: 1.55; }
+  .outcomes .fo p:last-child { margin-bottom: 0; }
+  .outcomes .fo ul { margin: 8px 0 0; font-size: 14px; }
+
+  pre {
+    background: var(--code-bg);
+    color: var(--code-ink);
+    padding: 20px 22px;
+    border-radius: 8px;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.55;
+    font-family: "SF Mono", Monaco, Menlo, Consolas, monospace;
+    margin: 20px 0;
+  }
+  code {
+    font-family: "SF Mono", Monaco, Menlo, Consolas, monospace;
+    font-size: 0.92em;
+    background: var(--accent-soft);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: var(--accent);
+  }
+  pre code { background: transparent; padding: 0; color: inherit; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+  }
+  th {
+    text-align: left;
+    padding: 12px 14px;
+    background: var(--ink);
+    color: white;
+    font-weight: 600;
+    font-size: 13px;
+  }
+  td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    line-height: 1.45;
+  }
+  tr:last-child td { border-bottom: none; }
+  table.checks td:first-child {
+    font-weight: 600;
+    width: 26%;
+    background: var(--accent-soft);
+  }
+  table.checks code { background: transparent; padding: 0; color: var(--ink); font-size: 12px; }
+
+  .timeline { margin: 20px 0; }
+  .day {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin-bottom: 14px;
+  }
+  .day h3 {
+    margin-top: 0;
+    color: var(--accent);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+  }
+  .slot {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 14px;
+    font-size: 14px;
+    padding: 6px 0;
+  }
+  .slot .time {
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+  }
+
+  .roles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 20px 0;
+  }
+  .role-card {
+    padding: 16px 20px;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    background: var(--card-bg);
+  }
+  .role-card h4 { margin: 0 0 6px; font-size: 14px; color: var(--accent); }
+  .role-card p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  .checklist { list-style: none; padding-left: 0; }
+  .checklist li {
+    padding-left: 28px;
+    position: relative;
+    margin-bottom: 8px;
+  }
+  .checklist li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 4px;
+    width: 16px;
+    height: 16px;
+    border: 2px solid var(--accent);
+    border-radius: 3px;
+    background: var(--card-bg);
+  }
+
+  .diagram {
+    margin: 24px 0;
+    padding: 24px 20px 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+  .diagram svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    max-width: 740px;
+    margin: 0 auto;
+  }
+  .diagram-caption {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+    margin-top: 10px;
+    font-style: italic;
+  }
+
+  .team {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin: 24px 0;
+  }
+  .team-card {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 16px;
+    padding: 14px 18px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--card-bg);
+    align-items: start;
+  }
+  .team-card .role {
+    font-weight: 700;
+    color: var(--accent);
+    font-size: 14px;
+  }
+  .team-card .job {
+    font-size: 14px;
+    color: var(--ink);
+    line-height: 1.5;
+  }
+  .team-card.key {
+    border-color: var(--gold);
+    background: var(--gold-soft);
+  }
+  .team-card.key .role { color: var(--gold); }
+
+  footer {
+    margin-top: 72px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  @media (max-width: 700px) {
+    .page { padding: 40px 22px 60px; }
+    h1 { font-size: 28px; }
+    h2 { font-size: 22px; }
+    .scope, .roles, .format-choice { grid-template-columns: 1fr; }
+    .facts dl { grid-template-columns: 1fr; gap: 2px; }
+    .facts dt { margin-top: 8px; }
+    .slot { grid-template-columns: 80px 1fr; }
+    .team-card { grid-template-columns: 1fr; gap: 4px; }
+  }
+  @media print {
+    body { background: white; }
+    .page { padding: 24px; max-width: 100%; }
+    .callout, .scope-col, .day, .role-card, table, pre, .facts, .outcomes .fo, .zone-divider, .how-to-read, .format-card { break-inside: avoid; }
+    h2 { break-after: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="hero">
+  <div class="eyebrow">Weekend Hackathon · Requirements v2.0</div>
+  <h1>Demo Requirements: The Refinery</h1>
+  <p class="subtitle">A two-day scope to prove Stage 2 of the credit memo supply chain works end-to-end on a single sample document.</p>
+</header>
+
+<div class="related">
+  <strong>Companion to</strong> the <a href="credit-memo-extraction-explainer.html">Strategic Brief</a>. The brief is <strong>frozen</strong> as the source of high-level requirements. This document scopes a concrete hackathon deliverable that validates the brief's critical link.
+</div>
+
+<div class="how-to-read">
+  <div class="label">How to read this document</div>
+  <p>This document has two zones.</p>
+  <p><strong>The Contract</strong> is locked. Every implementation must satisfy everything in it, regardless of language, framework, or architectural decomposition. Anything the audience sees at the demo lives here — the input, the output schema, the arithmetic checks, the deliverables.</p>
+  <p><strong>Reference Implementation</strong> is guidance only. It exists to help teams get started, but any layer — language, libraries, agent framework, even the specialist-team architecture itself — can be substituted for an equivalent that hits The Contract. If in doubt, the Proofreader Checks in §8 are the ultimate arbiter of whether an implementation satisfies the requirements.</p>
+</div>
+
+<h2>Pick a format</h2>
+<p>This demo can run in two modes. Decide on Saturday morning at kickoff, after the group has read The Contract together.</p>
+
+<div class="format-choice">
+  <div class="format-card">
+    <h3>Unified team</h3>
+    <div class="tagline">One codebase · One demo</div>
+    <ul>
+      <li><strong>Structure:</strong> one shared repo, split into roles (extraction, agent, validator, UX/demo)</li>
+      <li><strong>Output:</strong> one integrated demo at the end</li>
+      <li><strong>Best for:</strong> smaller groups (2–4 people), teams that haven't worked together before, tight coordination</li>
+      <li><strong>Strength:</strong> fastest path to a single polished story</li>
+      <li><strong>Risk:</strong> a bug in one layer breaks the whole demo</li>
+    </ul>
+  </div>
+  <div class="format-card">
+    <h3>Bake-off</h3>
+    <div class="tagline">Multiple stacks · Same contract</div>
+    <ul>
+      <li><strong>Structure:</strong> 2–3 independent pairs, each picking their own stack, architecture, and approach</li>
+      <li><strong>Output:</strong> each pair demos for 5 minutes, followed by a comparative retrospective</li>
+      <li><strong>Best for:</strong> larger groups (5–8 people), mixed skill backgrounds, learning-focused hackathons</li>
+      <li><strong>Strength:</strong> direct comparison — which stack was fastest, which caught the hardest edge cases, which recovery path was cleverest</li>
+      <li><strong>Risk:</strong> more scaffolding up front; if one pair's implementation breaks, the others still work</li>
+    </ul>
+  </div>
+</div>
+
+<p><em>The rest of this document works for either mode. Where a section differs by mode, both variants are shown.</em></p>
+
+<!-- =========================================================== -->
+<!-- THE CONTRACT (LOCKED)                                        -->
+<!-- =========================================================== -->
+
+<div class="zone-divider contract">
+  <div class="zone-label">Zone 1 of 2</div>
+  <h2>The Contract</h2>
+  <p>Everything in this zone is locked. Every implementation must satisfy these sections, regardless of technology choice, architecture, or format. The audience sees all of this at the demo.</p>
+</div>
+
+<h2>1. Purpose <span class="badge locked">Locked</span></h2>
+<p>Prove the refinery works. One sample credit memo goes in; verified structured data comes out. Every field traces back to a page in the original PDF. Every number reconciles against the proofreader's arithmetic checks. Nothing silently wrong.</p>
+<p>This is the credibility anchor for the broader supply chain. If we can show end-to-end extraction with verification on one document in a weekend, the business case for building the full platform writes itself.</p>
+
+<h2>2. Supply chain position <span class="badge locked">Locked</span></h2>
+
+<figure class="diagram">
+<svg viewBox="0 0 740 170" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Supply chain with Stage 2 highlighted as the demo scope">
+  <defs>
+    <marker id="dm-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#2d5a7b"/>
+    </marker>
+  </defs>
+
+  <text x="90" y="18" text-anchor="middle" font-family="-apple-system, system-ui, sans-serif" font-size="10" font-weight="700" fill="#5a5a6e" letter-spacing="1.2">STAGE 1</text>
+  <text x="270" y="18" text-anchor="middle" font-family="-apple-system, system-ui, sans-serif" font-size="10" font-weight="700" fill="#a67c2e" letter-spacing="1.2">STAGE 2 · DEMO</text>
+  <text x="450" y="18" text-anchor="middle" font-family="-apple-system, system-ui, sans-serif" font-size="10" font-weight="700" fill="#5a5a6e" letter-spacing="1.2">STAGE 3</text>
+  <text x="630" y="18" text-anchor="middle" font-family="-apple-system, system-ui, sans-serif" font-size="10" font-weight="700" fill="#5a5a6e" letter-spacing="1.2">STAGE 4</text>
+
+  <rect x="20" y="30" width="140" height="100" rx="8" fill="#ffffff" stroke="#2d5a7b" stroke-width="1.5" opacity="0.55"/>
+  <text x="90" y="60" text-anchor="middle" font-family="-apple-system, system-ui, sans-serif" font-size="15" font-weight="700" fill="#1a1a2e">Archive</text>
+  <text x="90" y="82" text-anchor="middle" font-family="-apple-system, system-ui, sans-serif" font-size="10" fill="#5a5a6e">Sample PDF</text>
+  <text x="90" y="96" text-anchor="middle" font-family="-apple-system, system-ui, sans-serif" font-size="10" fill="#5a5a6e">(1 document)</text>
+
+  <line x1="165" y1="80" x2="195" y2="80" stroke="#2d5a7b" stroke-width="2" marker-end="url(#dm-arrow)"/>
+
+  <rect x="200" y="30" width="140" height="100" rx="8" fill="#fdf6e8" stroke="#a67c2e" stroke-width="3"/>
+  <text x="270" y="60" text-anchor="middle" font-family="-apple-system, system-ui, sans-serif" font-size="15" font-weight="700" fill="#a67c2e">Refinery</text>
+  <text x="270" y="82" text-anchor="middle" font-family="-apple-system, system-ui, sans-serif" font-size="10" fill="#5a5a6e">Extraction +</text>
+  <text x="270" y="96" text-anchor="middle" font-family="-apple-system, system-ui, sans-serif" font-size="10" fill="#5a5a6e">verification</text>
+  <text x="270" y="115" text-anchor="middle" font-family="-apple-system, system-ui, sans-serif" font-size="10" font-weight="700" fill="#a67c2e">THE WEEKEND</text>
+
+  <line x1="345" y1="80" x2="375" y2="80" stroke="#2d5a7b" stroke-width="2" marker-end="url(#dm-arrow)" opacity="0.55"/>
+
+  <rect x="380" y="30" width="140" height="100" rx="8" fill="#ffffff" stroke="#2d5a7b" stroke-width="1.5" opacity="0.55"/>
+  <text x="450" y="60" text-anchor="middle" font-family="-apple-system, system-ui, sans-serif" font-size="15" font-weight="700" fill="#1a1a2e">Data Estate</text>
+  <text x="450" y="82" text-anchor="middle" font-family="-apple-system, system-ui, sans-serif" font-size="10" fill="#5a5a6e">Out of scope</text>
+  <text x="450" y="96" text-anchor="middle" font-family="-apple-system, system-ui, sans-serif" font-size="10" fill="#5a5a6e">for this demo</text>
+
+  <line x1="525" y1="80" x2="555" y2="80" stroke="#2d5a7b" stroke-width="2" marker-end="url(#dm-arrow)" opacity="0.55"/>
+
+  <rect x="560" y="30" width="140" height="100" rx="8" fill="#ffffff" stroke="#2d5a7b" stroke-width="1.5" opacity="0.55"/>
+  <text x="630" y="60" text-anchor="middle" font-family="-apple-system, system-ui, sans-serif" font-size="15" font-weight="700" fill="#1a1a2e">Factory</text>
+  <text x="630" y="82" text-anchor="middle" font-family="-apple-system, system-ui, sans-serif" font-size="10" fill="#5a5a6e">Out of scope</text>
+  <text x="630" y="96" text-anchor="middle" font-family="-apple-system, system-ui, sans-serif" font-size="10" fill="#5a5a6e">for this demo</text>
+</svg>
+<figcaption class="diagram-caption">This weekend builds Stage 2 only. Stages 1, 3, and 4 are acknowledged but out of scope.</figcaption>
+</figure>
+
+<h2>3. The sample document <span class="badge locked">Locked</span></h2>
+<p>A 22-page MBFS Credit Memorandum for a $514,500 multifamily real estate refinance in Philadelphia. It contains the full mixed-content profile the refinery needs to handle: form fields, multi-year financial tables, analyst narrative, a third-party industry infographic, site-visit photographs, and a signed decision form.</p>
+
+<div class="facts">
+<dl>
+  <dt>File</dt><dd><code>Sample-Enhanced-Memo.pdf</code> (22 pages, 1.1 MB)</dd>
+  <dt>Borrower</dt><dd>Real estate holding company</dd>
+  <dt>Loan amount</dt><dd>$514,500, 4.75% fixed, 5-year term, 30-year amortization</dd>
+  <dt>Collateral</dt><dd>Multifamily 5+ unit, est. value $735,000, 70% LTV</dd>
+  <dt>Guarantors</dt><dd>Two, each 50% ownership, credit scores 734 and 775</dd>
+  <dt>Risk rating</dt><dd>4-Pass (scored 3.55)</dd>
+  <dt>Borrower DSCR</dt><dd>0.82x (2021), 1.02x pro-forma</dd>
+  <dt>Global DSCR</dt><dd>1.59x (2021), 1.60x pro-forma</dd>
+  <dt>Gross rents</dt><dd>$53,400/year ($4,450/month across six units)</dd>
+</dl>
+</div>
+
+<h2>4. Scope <span class="badge locked">Locked</span></h2>
+
+<div class="scope">
+  <div class="scope-col in">
+    <h3>In scope</h3>
+    <ul>
+      <li>Processing one PDF end-to-end</li>
+      <li>Content-aware page routing</li>
+      <li>Header field extraction</li>
+      <li>Three financial tables</li>
+      <li>Narrative sections (strengths, weaknesses, analyst notes, loan purpose)</li>
+      <li>Arithmetic verification with a reported result per check</li>
+      <li>At least one observable recovered error</li>
+      <li>Structured JSON output matching the §7 schema</li>
+      <li>Source-page provenance for every populated field</li>
+      <li>A five-minute demo walkthrough</li>
+    </ul>
+  </div>
+  <div class="scope-col out">
+    <h3>Out of scope</h3>
+    <ul>
+      <li>Any Stage 3 (data estate) work</li>
+      <li>Any Stage 4 (insight agents)</li>
+      <li>Multiple documents or cross-memo linking</li>
+      <li>Authentication, access control, multi-user</li>
+      <li>Persistent database beyond local files</li>
+      <li>Production observability, SLAs, cost tracking</li>
+      <li>Template drift across memo versions</li>
+      <li>PII handling or anonymization</li>
+      <li>Regulatory compliance review</li>
+      <li>Exhaustive field extraction — only what's needed to run §8</li>
+    </ul>
+  </div>
+</div>
+
+<h2>5. Success criteria <span class="badge locked">Locked</span></h2>
+<p>At the end of Sunday, the demo must produce the following observable outcomes, regardless of how the system is built.</p>
+<ol>
+  <li>Running the system on <code>Sample-Enhanced-Memo.pdf</code> produces a JSON document matching the schema in §7.</li>
+  <li>Every populated field carries a source-page reference back to the PDF.</li>
+  <li>All mandatory checks in §8 pass, and the validation report is visible in the demo surface.</li>
+  <li>At least one recovered error is visible in the output — a case where an initial extraction attempt produced an incorrect value, the incorrect value was detected, and a corrected value was produced.</li>
+  <li>A reviewer can point at any field in the output and be shown the specific page of the source PDF it came from.</li>
+  <li>A five-minute walkthrough maps each demo step back to the strategic brief's four-stage supply chain.</li>
+</ol>
+
+<h2>6. Functional outcomes <span class="badge locked">Locked</span></h2>
+<p>What must be true of the system when the demo runs, regardless of <em>how</em> the system is built. An implementation that uses a single LLM pass, a specialist-team architecture, a state machine, or any other pattern is acceptable as long as every outcome below is observable in the final output.</p>
+
+<div class="outcomes">
+  <div class="fo">
+    <h4><span class="code">FO1</span>Content-aware routing</h4>
+    <p>Every page of the source PDF must be classified by content type (at minimum: form, table, narrative, visual, skip), and the classification must influence how that page is extracted. An implementation that processes every page with one tool and ignores content type does not satisfy this outcome.</p>
+  </div>
+
+  <div class="fo">
+    <h4><span class="code">FO2</span>Header field extraction</h4>
+    <p>The following fields must appear in the output with values correctly drawn from pages 1–2 of the sample. Each field must carry a source-page reference.</p>
+    <ul>
+      <li>Memo date, credit union, relationship manager, analyst, borrower name</li>
+      <li>Loan amount, rate, rate type, term, amortization</li>
+      <li>Collateral type, address, estimated value, LTV, purchase price, lien position</li>
+      <li>NAICS code, risk rating, aggregate relationship</li>
+      <li>Borrower DSCR and global DSCR (both actual and pro-forma)</li>
+      <li>Guarantors: name, credit score, ownership percentage</li>
+      <li>Sources &amp; Uses rows with amounts</li>
+    </ul>
+  </div>
+
+  <div class="fo">
+    <h4><span class="code">FO3</span>Financial table extraction</h4>
+    <p>Three tables must be extracted into structured form (column → value) with correct numeric values and source-page references:</p>
+    <ul>
+      <li>Guarantor 1 Net Worth (page 4)</li>
+      <li>Guarantor 1 Personal Cash Flow (page 5) — must include the 2018, 2019, 2020, and Projected columns</li>
+      <li>Global Cash Flow (page 12) — must include the Borrower, Guarantor 1, Guarantor 2, and Total rows across 2019, 2020, 2021, and Projected columns</li>
+    </ul>
+  </div>
+
+  <div class="fo">
+    <h4><span class="code">FO4</span>Narrative extraction</h4>
+    <p>The following narrative elements must be extracted from the appropriate pages, with source-page references:</p>
+    <ul>
+      <li>Borrower background paragraph</li>
+      <li>Operating statement narrative (rent history, expenses)</li>
+      <li>Strengths list (as discrete items)</li>
+      <li>Weaknesses list (as discrete items)</li>
+      <li>Analyst notes / CU recommendations</li>
+      <li>Stated loan purpose</li>
+    </ul>
+  </div>
+
+  <div class="fo">
+    <h4><span class="code">FO5</span>Arithmetic verification</h4>
+    <p>All mandatory checks from §8 must be executed against the extracted data and reported in the output, with expected value, observed value, and pass/fail status. Implementations may add additional checks beyond §8 but must not remove any.</p>
+  </div>
+
+  <div class="fo">
+    <h4><span class="code">FO6</span>Observable error recovery</h4>
+    <p>The demo must include at least one observable case where an initial extraction attempt produced an incorrect value, the incorrect value was detected, and a corrected value was produced. The recovery must be visible in the final output — a reviewer should be able to see that the system tried one approach, the result failed a check or was flagged, and a different approach succeeded. <em>How</em> the detection and correction happen is an implementation choice.</p>
+  </div>
+
+  <div class="fo">
+    <h4><span class="code">FO7</span>Structured output with provenance</h4>
+    <p>The final output must match the schema in §7. Every populated field must carry a reference back to the source page and the method/agent/tool that produced it. A reviewer must be able to ask "where did this value come from?" for any field and receive a specific page answer.</p>
+  </div>
+</div>
+
+<h2>7. Output schema <span class="badge locked">Locked</span></h2>
+<p>The schema below is a Python/Pydantic expression. Teams using other languages must produce JSON that is shape-compatible — same field names, same structure, same nesting. The schema is deliberately flat and minimal.</p>
+
+<pre><code>from pydantic import BaseModel, Field
+from typing import Literal
+
+class SourceRef(BaseModel):
+    page: int
+    agent: str          # e.g. "form", "table", "narrative", "visual", or custom
+    method: str         # e.g. "pdfplumber-lattice", "claude-vision", "regex"
+    confidence: float = 1.0
+
+class Field_(BaseModel):
+    value: str | float | int | None
+    source: SourceRef
+
+class Guarantor(BaseModel):
+    name: Field_
+    credit_score: Field_
+    ownership_pct: Field_
+    stated_net_worth: Field_ | None = None
+
+class LoanTerms(BaseModel):
+    amount: Field_
+    rate: Field_
+    rate_type: Field_
+    term_years: Field_
+    amortization_years: Field_
+
+class Collateral(BaseModel):
+    asset_type: Field_
+    address: Field_
+    estimated_value: Field_
+    ltv_pct: Field_
+    lien_position: Field_
+
+class FinancialTable(BaseModel):
+    name: str
+    rows: list[dict]    # column name -> value
+    source: SourceRef
+
+class ValidationCheck(BaseModel):
+    name: str
+    formula: str
+    expected: float | str
+    observed: float | str
+    status: Literal["pass", "fail", "warning"]
+    source_pages: list[int]
+
+class CreditMemo(BaseModel):
+    document_id: str
+    memo_date: Field_
+    borrower_name: Field_
+    loan: LoanTerms
+    collateral: Collateral
+    guarantors: list[Guarantor]
+    sources: list[dict] = Field(default_factory=list)
+    uses: list[dict] = Field(default_factory=list)
+    tables: list[FinancialTable] = Field(default_factory=list)
+    strengths: list[str] = Field(default_factory=list)
+    weaknesses: list[str] = Field(default_factory=list)
+    analyst_notes: str | None = None
+    validation: list[ValidationCheck]</code></pre>
+
+<h2>8. Proofreader checks <span class="badge locked">Locked</span></h2>
+<p>Mandatory arithmetic checks against the sample document. Expected values are the ground truth — if an implementation produces something different, either the extraction is wrong or the check is wrong. Either way, the demo does not ship until both agree. Tolerance: ±1 unit for integer dollar totals, ±0.01 for ratios.</p>
+
+<table class="checks">
+  <thead>
+    <tr>
+      <th>Check</th>
+      <th>Formula</th>
+      <th>Expected (from the sample)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>C1 · Sources = Uses</td>
+      <td><code>sum(sources.amount) == sum(uses.amount)</code></td>
+      <td><code>$514,500 == $514,500</code></td>
+    </tr>
+    <tr>
+      <td>C2 · G1 stated net worth</td>
+      <td><code>total_assets − total_liabilities</code></td>
+      <td><code>$4,760,177 − $1,070,737 = $3,689,440</code></td>
+    </tr>
+    <tr>
+      <td>C3 · G1 adjusted net worth</td>
+      <td><code>assets − liabilities − adjustments</code></td>
+      <td><code>$4,760,177 − $1,070,737 − $425,000 = $3,264,440</code></td>
+    </tr>
+    <tr>
+      <td>C4 · G2 stated net worth</td>
+      <td><code>total_assets − total_liabilities</code></td>
+      <td><code>$1,546,440 − $656,140 = $890,300</code></td>
+    </tr>
+    <tr>
+      <td>C5 · Ownership sum</td>
+      <td><code>sum(guarantor.ownership_pct) == 100</code></td>
+      <td><code>50 + 50 = 100</code></td>
+    </tr>
+    <tr>
+      <td>C6 · G1 DSCR 2020</td>
+      <td><code>gross_cash_flow ÷ total_debt</code></td>
+      <td><code>$111,831 ÷ $33,120 ≈ 3.38</code></td>
+    </tr>
+    <tr>
+      <td>C7 · Global DSCR 2019</td>
+      <td><code>total_combined_cash ÷ total_combined_debt_service</code></td>
+      <td><code>$189,500 ÷ $66,050 ≈ 2.87</code></td>
+    </tr>
+    <tr>
+      <td>C8 · Rent roll sum</td>
+      <td><code>sum(unit_rents) × 12</code></td>
+      <td><code>($800+$650+$650+$800+$750+$800) × 12 = $53,400</code></td>
+    </tr>
+    <tr>
+      <td>C9 · Cross-page rents</td>
+      <td>narrative (p8) == transactional (p17)</td>
+      <td><code>$53,400</code> on both pages</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2>9. Deliverables <span class="badge locked">Locked</span></h2>
+<p>Every implementation — whether in unified-team or bake-off mode — delivers the following by the end of the weekend.</p>
+
+<ul class="checklist">
+  <li>Git repository with a one-command bootstrap (<code>make demo</code>, <code>npm run demo</code>, or equivalent)</li>
+  <li><code>README.md</code> with setup, run instructions, and how to regenerate the sample output</li>
+  <li>A short statement of which stack, framework, and architecture the implementation used and why</li>
+  <li>Generated <code>sample-output.json</code> committed alongside the source PDF, matching the §7 schema</li>
+  <li>Generated validation report showing all §8 checks with expected, observed, and status</li>
+  <li>A demo surface (CLI, UI, or static HTML) capable of running the five-minute walkthrough</li>
+  <li>A five-minute recorded demo video (insurance policy against demo-day failures)</li>
+  <li>A one-page retrospective: what worked, what didn't, what to build next</li>
+</ul>
+
+<!-- =========================================================== -->
+<!-- REFERENCE IMPLEMENTATION                                     -->
+<!-- =========================================================== -->
+
+<div class="zone-divider reference">
+  <div class="zone-label">Zone 2 of 2</div>
+  <h2>Reference Implementation</h2>
+  <p>Everything below is guidance. It exists to help teams get started, reduce decision fatigue on Saturday morning, and provide a known-good reference point. Any section can be ignored, replaced, or adapted — as long as The Contract above is satisfied.</p>
+</div>
+
+<h2>10. Reference architecture <span class="badge reference">Reference</span></h2>
+<p>The strategic brief describes a specialist-team pattern — an orchestrator that routes pages, a set of focused extraction agents, a validator (the proofreader), and a reconciler. This is the reference architecture for the refinery. Teams may adopt it as-is, modify it, or use a different decomposition entirely.</p>
+
+<div class="team">
+  <div class="team-card"><div class="role">Mail Sorter</div><div class="job">Classifies each page and routes it to the right specialist.</div></div>
+  <div class="team-card"><div class="role">Form Specialist</div><div class="job">Labeled fields, header tables, key-value extraction from pages 1–2.</div></div>
+  <div class="team-card"><div class="role">Spreadsheet Specialist</div><div class="job">Ruled financial tables. Typically has multiple methods and falls back when one fails.</div></div>
+  <div class="team-card"><div class="role">Reading Specialist</div><div class="job">Paragraphs, lists, analyst commentary.</div></div>
+  <div class="team-card"><div class="role">Visual Specialist</div><div class="job">Charts, infographics, photos. Also serves as a retry path when other specialists fail.</div></div>
+  <div class="team-card key"><div class="role">Proofreader</div><div class="job"><strong>The quality gate.</strong> Runs the §8 arithmetic checks against the extracted data.</div></div>
+  <div class="team-card"><div class="role">Supervisor</div><div class="job">Handles flagged errors and decides on retry paths.</div></div>
+</div>
+
+<p>Alternative patterns that would also satisfy The Contract include: a single-LLM-pass approach with a separate validation step, a state-machine approach where each page advances through explicit extraction and verification states, or a pipeline-per-content-type approach. Pick what matches the team's comfort and the problem.</p>
+
+<h2>11. Reference tech stack <span class="badge reference">Reference</span></h2>
+<p>Recommended defaults. Substitute freely — the only hard requirement is that an LLM is used somewhere in the extraction path, because semantic understanding of the document is the reason this approach works at all.</p>
+
+<table>
+  <thead>
+    <tr><th>Layer</th><th>Default</th><th>Reasonable alternatives</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Language</td><td>Python 3.11+</td><td>TypeScript/Node, Go, Rust — any language with decent PDF and LLM SDK support</td></tr>
+    <tr><td>LLM</td><td>Claude (Opus 4.6 / Sonnet 4.6)</td><td>Any frontier model with vision and structured output</td></tr>
+    <tr><td>Agent framework</td><td>Claude Agent SDK</td><td>LangGraph, a homegrown orchestrator, or no framework at all</td></tr>
+    <tr><td>PDF text/tables</td><td><code>pdfplumber</code></td><td><code>pymupdf</code>, <code>pdfminer.six</code>, <code>tabula-py</code>, Azure Document Intelligence, AWS Textract</td></tr>
+    <tr><td>PDF rendering</td><td><code>pymupdf</code> (fitz)</td><td><code>pdf2image</code>, <code>wand</code></td></tr>
+    <tr><td>Table fallback</td><td><code>camelot-py</code></td><td>LLM vision on the rendered page, <code>tabula-py</code></td></tr>
+    <tr><td>Schema</td><td><code>pydantic</code> v2</td><td><code>zod</code> (TS), <code>attrs</code>, dataclasses, hand-rolled JSON schema</td></tr>
+    <tr><td>UI</td><td>Streamlit</td><td>FastAPI + minimal HTML, Next.js, CLI only</td></tr>
+    <tr><td>Scaffold</td><td><code>uv</code> or <code>poetry</code></td><td><code>pnpm</code>, <code>cargo</code>, whatever's in your muscle memory</td></tr>
+  </tbody>
+</table>
+
+<h2>12. Reference timeline <span class="badge reference">Reference</span></h2>
+<p>A suggested schedule for a team that has not run this before. Bake-off pairs may run their own schedules in parallel.</p>
+
+<div class="timeline">
+  <div class="day">
+    <h3>Saturday — Build</h3>
+    <div class="slot"><div class="time">09:00</div><div>Group kickoff. Read The Contract together. Confirm every §8 check with the actual PDF open. <strong>Pick format (unified or bake-off).</strong> If bake-off, form pairs and agree on a shared location for output JSON files so they can be compared Sunday.</div></div>
+    <div class="slot"><div class="time">10:00</div><div>Each team scaffolds its repo, verifies API keys, and gets an empty <code>CreditMemo</code> round-tripping through its chosen stack.</div></div>
+    <div class="slot"><div class="time">11:00</div><div>First extraction pass: header fields (FO2). Aim for visible output by noon.</div></div>
+    <div class="slot"><div class="time">12:00</div><div><em>Lunch.</em></div></div>
+    <div class="slot"><div class="time">13:00</div><div>Financial tables (FO3). This is the hardest part — expect at least one of the three target tables to misbehave.</div></div>
+    <div class="slot"><div class="time">15:00</div><div>Narrative extraction (FO4). Usually quick once the LLM plumbing is in place.</div></div>
+    <div class="slot"><div class="time">16:30</div><div>First integration pass. Run end-to-end on the sample, inspect the JSON, note what's broken.</div></div>
+    <div class="slot"><div class="time">18:00</div><div><em>Dinner. Celebrate that something works.</em></div></div>
+  </div>
+  <div class="day">
+    <h3>Sunday — Verify &amp; Polish</h3>
+    <div class="slot"><div class="time">09:00</div><div>Proofreader (FO5). Implement §8 checks as pure functions. Expect at least one to fail on the first run — investigate upstream.</div></div>
+    <div class="slot"><div class="time">11:00</div><div>Error recovery (FO6). Implement whatever retry path your architecture suggests. The goal is that the recovery is visible in the final output.</div></div>
+    <div class="slot"><div class="time">12:00</div><div><em>Lunch.</em></div></div>
+    <div class="slot"><div class="time">13:00</div><div>Demo surface. Minimal UI or enriched CLI showing source pages, extracted values, validation report, and provenance.</div></div>
+    <div class="slot"><div class="time">15:00</div><div>End-to-end dry run. All §8 checks pass. Recovery is observable. Record the demo video as backup.</div></div>
+    <div class="slot"><div class="time">16:00</div><div>Demo rehearsal. Run the five-minute walkthrough twice.</div></div>
+    <div class="slot"><div class="time">17:00</div><div>Live demos. In bake-off mode: each pair demos in turn, followed by comparative retrospective.</div></div>
+  </div>
+</div>
+
+<h2>13. Reference team roles <span class="badge reference">Reference</span></h2>
+<p>For unified-team mode. Bake-off pairs split responsibilities however they like inside each pair.</p>
+
+<div class="roles">
+  <div class="role-card">
+    <h4>Extraction lead</h4>
+    <p>Owns the hardest extraction paths — typically financial tables and the vision fallback. Knows the chosen PDF library well enough to debug merged-header drift in under 15 minutes.</p>
+  </div>
+  <div class="role-card">
+    <h4>Agent lead</h4>
+    <p>Owns the orchestration, page routing, and the LLM integration. Defines the interface each extraction component exposes.</p>
+  </div>
+  <div class="role-card">
+    <h4>Validator lead</h4>
+    <p>Owns the §8 checks, the error-recovery path, and the provenance tracking. This role is the quality gate for the whole demo.</p>
+  </div>
+  <div class="role-card">
+    <h4>UX / demo lead</h4>
+    <p>Owns the schema, the demo surface, the integration runner, and the five-minute demo script. Also runs the rehearsal.</p>
+  </div>
+</div>
+
+<h2>14. Reference demo script <span class="badge reference">Reference</span></h2>
+<p>A suggested five-minute walkthrough. Teams may adapt the structure; the content points are what matters.</p>
+<ol>
+  <li><strong>(30s) The pitch.</strong> One sentence: "This is Stage 2 of the supply chain from the strategic brief — the refinery that turns a PDF into trustworthy structured data."</li>
+  <li><strong>(45s) The input.</strong> Show the sample PDF. Flip through form pages, spreadsheets, narrative, infographic, photos. "One document, every content type."</li>
+  <li><strong>(1m) The run.</strong> Drop the file into the demo surface. Show the routing decisions. Show the JSON output appearing.</li>
+  <li><strong>(90s) The proofreader.</strong> Open the validation report. Walk through three checks: Sources = Uses, G1 net worth, global DSCR. Show one check that initially failed and how the system recovered. <em>This is the money moment.</em></li>
+  <li><strong>(30s) Provenance.</strong> Click any field in the output and show the source page it came from.</li>
+  <li><strong>(45s) The bigger picture.</strong> Return to the brief's supply chain diagram. "We just proved Stage 2. Stages 3 and 4 are the business case." Close.</li>
+</ol>
+<p><strong>Bake-off variant.</strong> Each pair runs the same 5-minute script. After all pairs have demoed, the group spends 15 minutes on a comparative retrospective: which stack extracted fastest, which caught the hardest edge case (the red <code>($2,918)</code> on page 12 is a good benchmark), which recovery path was cleverest, and what each approach would cost to scale to 20,000 memos.</p>
+
+<h2>15. Stretch goals <span class="badge reference">Reference</span></h2>
+<ul>
+  <li>Cross-page consistency checks beyond §8 (narrative gross rents vs. transactional table, etc.)</li>
+  <li>Actually parsing the IBISWorld infographic on page 10 (no tool handles this cleanly — vision is the only real option)</li>
+  <li>Side-by-side PDF viewer with extracted fields highlighted on their source pages</li>
+  <li>A second retry path using a different LLM or library for the same extraction</li>
+  <li>CSV export of the financial tables</li>
+  <li>Load a second hand-modified memo to show the approach is robust to template drift</li>
+  <li>Cost tracking per extraction (tokens, API calls, wall time)</li>
+</ul>
+
+<!-- =========================================================== -->
+<!-- COMMON                                                       -->
+<!-- =========================================================== -->
+
+<h2>16. Risks and mitigations</h2>
+
+<table>
+  <thead>
+    <tr><th>Risk</th><th>Likelihood</th><th>Mitigation</th></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Over-scoping field extraction — trying to extract every field on every page</td>
+      <td>High</td>
+      <td>Extract only what's needed to run the §8 checks. Everything else is a stretch goal.</td>
+    </tr>
+    <tr>
+      <td>The hardest extraction (merged "Projected" header on page 5) consumes the weekend</td>
+      <td>High</td>
+      <td>Expected — this is the demo's punchline. The recovery path is what you're actually building.</td>
+    </tr>
+    <tr>
+      <td>Vision-based extraction attempts on page 10 (infographic) eat all of Sunday</td>
+      <td>Medium</td>
+      <td>Page 10 is explicitly a stretch goal. For the core demo, route it to <code>skip</code>.</td>
+    </tr>
+    <tr>
+      <td>LLM rate limits or API key issues on Saturday morning</td>
+      <td>Medium</td>
+      <td>Generate keys and verify access on Friday night. Cache LLM responses during development.</td>
+    </tr>
+    <tr>
+      <td>Proofreader checks pass trivially because extracted numbers come from the same wrong source</td>
+      <td>Medium</td>
+      <td>Prefer cross-agent or cross-page checks where possible. C9 exists for exactly this reason.</td>
+    </tr>
+    <tr>
+      <td>Bake-off: contract ambiguity leads to incompatible outputs</td>
+      <td>Medium (bake-off only)</td>
+      <td>Spend the first hour of Saturday walking through §7 and §8 together with the PDF open. Any gray area becomes three different interpretations otherwise.</td>
+    </tr>
+    <tr>
+      <td>Bake-off: unequal pair sizes or skill levels lead to one team finishing and others stalling</td>
+      <td>Medium (bake-off only)</td>
+      <td>Pre-balance pairs before splitting. Allow pairs that finish early to help others, or to attempt stretch goals.</td>
+    </tr>
+    <tr>
+      <td>Demo day: integration breaks 10 minutes before showtime</td>
+      <td>Always</td>
+      <td>Record the demo video on Sunday afternoon as a backup. Worst case: play the video.</td>
+    </tr>
+  </tbody>
+</table>
+
+<footer>
+  Requirements v2.0 · Contract/Reference split · Companion to the <a href="credit-memo-extraction-explainer.html">Strategic Brief</a>
+</footer>
+
+</div>
+</body>
+</html>
