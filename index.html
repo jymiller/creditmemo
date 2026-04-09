@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Credit Memo Refinery — Document Set</title>
+<meta name="description" content="Strategic brief, executive one-pager, and demo requirements for turning a dormant credit memo archive into a proprietary data moat.">
+<style>
+  :root {
+    --bg: #fafaf9;
+    --ink: #1a1a2e;
+    --muted: #5a5a6e;
+    --accent: #2d5a7b;
+    --accent-soft: #e8eef3;
+    --gold: #a67c2e;
+    --gold-bright: #f0c674;
+    --gold-soft: #fdf6e8;
+    --border: #d8d8d0;
+    --card-bg: #ffffff;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 72px 40px 80px;
+  }
+
+  header.hero {
+    text-align: center;
+    padding-bottom: 36px;
+    margin-bottom: 12px;
+  }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-size: 44px;
+    line-height: 1.1;
+    margin: 0 0 14px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+  }
+  .subtitle {
+    font-size: 20px;
+    color: var(--muted);
+    margin: 0 auto;
+    max-width: 640px;
+    line-height: 1.5;
+  }
+
+  .intro {
+    background: var(--ink);
+    color: #ffffff;
+    padding: 26px 32px;
+    border-radius: 12px;
+    margin: 40px 0 48px;
+    font-size: 16px;
+    line-height: 1.6;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+  .intro strong { color: var(--gold-bright); }
+  .intro p { margin: 0; }
+
+  .section-label {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    margin: 56px 0 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .doc-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin: 0 0 40px;
+  }
+  .doc-card {
+    display: flex;
+    flex-direction: column;
+    padding: 26px 26px 22px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+    position: relative;
+  }
+  .doc-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    border-color: var(--accent);
+  }
+  .doc-card.featured {
+    border-color: var(--gold);
+    background: var(--gold-soft);
+  }
+  .doc-card.featured:hover {
+    border-color: var(--gold);
+    box-shadow: 0 6px 20px rgba(166,124,46,0.15);
+  }
+  .doc-tag {
+    display: inline-block;
+    align-self: flex-start;
+    padding: 4px 11px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--accent-soft);
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+  .doc-card.featured .doc-tag {
+    background: var(--gold);
+    color: #ffffff;
+  }
+  .doc-card h3 {
+    font-size: 22px;
+    margin: 0 0 12px;
+    font-weight: 700;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+  .doc-card .doc-desc {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.55;
+    margin: 0 0 18px;
+    flex-grow: 1;
+  }
+  .doc-card .doc-meta {
+    font-size: 12px;
+    color: var(--muted);
+    padding-top: 14px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .doc-card.featured .doc-meta { border-top-color: rgba(166,124,46,0.25); }
+  .doc-card .open-link {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .doc-card.featured .open-link { color: var(--gold); }
+  .doc-card .open-link::after {
+    content: " →";
+  }
+
+  .reading-order {
+    background: var(--accent-soft);
+    border-left: 4px solid var(--accent);
+    padding: 22px 26px;
+    border-radius: 0 8px 8px 0;
+    margin: 0 0 48px;
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+  .reading-order strong { color: var(--accent); }
+  .reading-order p:last-child { margin-bottom: 0; }
+  .reading-order .label {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 10px;
+  }
+
+  .dev-section {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 26px 32px;
+  }
+  .dev-section h2 {
+    font-size: 18px;
+    margin: 0 0 14px;
+    color: var(--ink);
+    font-weight: 700;
+  }
+  .dev-section p {
+    margin: 0 0 16px;
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .dev-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 0;
+  }
+  .dev-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 13px;
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .dev-link:hover {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+  .dev-link .file {
+    font-family: "SF Mono", Monaco, Menlo, Consolas, monospace;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .dev-link .desc {
+    color: var(--muted);
+    font-size: 12px;
+  }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  footer a { color: var(--accent); }
+
+  @media (max-width: 820px) {
+    .doc-grid { grid-template-columns: 1fr; }
+    .dev-links { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .page { padding: 48px 22px 60px; }
+    h1 { font-size: 32px; }
+    .subtitle { font-size: 17px; }
+    .intro { padding: 22px 24px; font-size: 15px; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="hero">
+  <div class="eyebrow">Credit Memo Refinery</div>
+  <h1>From Dormant Archive to Proprietary Data Moat</h1>
+  <p class="subtitle">A strategic brief, an executive one-pager, and a weekend hackathon specification for turning a bank's credit memo backlog into a structural competitive advantage.</p>
+</header>
+
+<div class="intro">
+  <p>Every commercial bank sits on decades of credit memos containing proprietary information no competitor has — <strong>your</strong> borrowers, <strong>your</strong> losses, <strong>your</strong> analysts' judgments. Almost none of it is queryable. This document set makes the business case for activating that dormant asset, shows the architecture that makes it possible, and scopes a concrete weekend demo that proves the critical link.</p>
+</div>
+
+<div class="section-label">The document set</div>
+
+<div class="doc-grid">
+
+  <a class="doc-card featured" href="one-page-brief.html">
+    <div class="doc-tag">Executive</div>
+    <h3>One-Page Brief</h3>
+    <p class="doc-desc">The problem, the pattern, the before-and-after, and the key design decisions. For stakeholders who need the point in three minutes.</p>
+    <div class="doc-meta">
+      <span>3 min read</span>
+      <span class="open-link">Open</span>
+    </div>
+  </a>
+
+  <a class="doc-card" href="credit-memo-extraction-explainer.html">
+    <div class="doc-tag">Strategic</div>
+    <h3>Strategic Brief</h3>
+    <p class="doc-desc">The full business case. From dormant archive to proprietary data moat, framed as a four-stage supply chain with a compounding advantage. Includes the technical foundation for evaluators.</p>
+    <div class="doc-meta">
+      <span>12 min read</span>
+      <span class="open-link">Open</span>
+    </div>
+  </a>
+
+  <a class="doc-card" href="demo-requirements.html">
+    <div class="doc-tag">Technical</div>
+    <h3>Demo Requirements</h3>
+    <p class="doc-desc">Weekend hackathon specification with a locked Contract (schema, checks, scope, deliverables) and a Reference Implementation (stack, timeline, roles). Supports unified-team or bake-off formats.</p>
+    <div class="doc-meta">
+      <span>15 min read</span>
+      <span class="open-link">Open</span>
+    </div>
+  </a>
+
+</div>
+
+<div class="reading-order">
+  <div class="label">Suggested reading order</div>
+  <p><strong>For executives and stakeholders:</strong> start with the One-Page Brief. If they want more, follow the link at the bottom to the Strategic Brief.</p>
+  <p><strong>For engineers evaluating feasibility:</strong> start with the Strategic Brief's technical foundation section, then jump to the Demo Requirements Contract (sections 1–9).</p>
+  <p><strong>For weekend hackathon participants:</strong> read the One-Page Brief for context, skim the Strategic Brief for the bigger picture, then work from the Demo Requirements — specifically The Contract — as the working spec.</p>
+</div>
+
+<div class="section-label">For developers and the hackathon team</div>
+
+<div class="dev-section">
+  <h2>Markdown and source files</h2>
+  <p>Developer-friendly Markdown versions of the same documents, plus the sample input PDF and the repository source. The Markdown files render natively on GitHub and are the recommended format for copy-paste into code, schemas, and repo READMEs.</p>
+  <div class="dev-links">
+    <a class="dev-link" href="https://github.com/jymiller/creditmemo/blob/main/one-page-brief.md">
+      <div>
+        <div class="file">one-page-brief.md</div>
+        <div class="desc">Executive brief in Markdown</div>
+      </div>
+    </a>
+    <a class="dev-link" href="https://github.com/jymiller/creditmemo/blob/main/demo-requirements.md">
+      <div>
+        <div class="file">demo-requirements.md</div>
+        <div class="desc">Hackathon spec in Markdown</div>
+      </div>
+    </a>
+    <a class="dev-link" href="https://github.com/jymiller/creditmemo/blob/main/Sample-Enhanced-Memo.pdf">
+      <div>
+        <div class="file">Sample-Enhanced-Memo.pdf</div>
+        <div class="desc">The input document the demo processes</div>
+      </div>
+    </a>
+    <a class="dev-link" href="https://github.com/jymiller/creditmemo">
+      <div>
+        <div class="file">github.com/jymiller/creditmemo</div>
+        <div class="desc">Repository source</div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<footer>
+  Hosted on GitHub Pages · Source on <a href="https://github.com/jymiller/creditmemo">GitHub</a>
+</footer>
+
+</div>
+</body>
+</html>
