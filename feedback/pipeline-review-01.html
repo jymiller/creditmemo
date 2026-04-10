@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pipeline Review #1 — Credit Memo Refinery Hackathon</title>
+<style>
+  :root {
+    --bg: #fafaf9;
+    --ink: #1a1a2e;
+    --muted: #5a5a6e;
+    --accent: #2d5a7b;
+    --accent-soft: #e8eef3;
+    --gold: #a67c2e;
+    --gold-bright: #f0c674;
+    --gold-soft: #fdf6e8;
+    --border: #d8d8d0;
+    --card-bg: #ffffff;
+    --green: #2d7b45;
+    --green-soft: #e8f3ec;
+    --red: #b5332e;
+    --red-soft: #f8e8e8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .page { max-width: 860px; margin: 0 auto; padding: 52px 40px 72px; }
+  header.hero {
+    border-bottom: 2.5px solid var(--ink);
+    padding-bottom: 22px;
+    margin-bottom: 28px;
+  }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 12px;
+    color: var(--gold);
+    font-weight: 700;
+    margin-bottom: 10px;
+  }
+  h1 { font-size: 32px; line-height: 1.12; margin: 0 0 10px; font-weight: 700; letter-spacing: -0.015em; }
+  .subtitle { font-size: 15px; color: var(--muted); margin: 0; }
+  h2 { font-size: 22px; margin-top: 40px; margin-bottom: 12px; font-weight: 700; color: var(--ink); }
+  h3 { font-size: 17px; margin-top: 28px; margin-bottom: 8px; font-weight: 600; color: var(--accent); }
+  p { margin: 0 0 14px; }
+  ul, ol { padding-left: 22px; margin: 0 0 14px; }
+  li { margin-bottom: 6px; }
+  strong { color: var(--ink); }
+  a { color: var(--accent); }
+  code { font-family: "SF Mono", Monaco, monospace; font-size: 0.9em; background: var(--accent-soft); padding: 1px 5px; border-radius: 3px; color: var(--accent); }
+  pre { background: #0f1020; color: #e8e8f0; padding: 18px 22px; border-radius: 8px; overflow-x: auto; font-size: 13px; line-height: 1.5; font-family: "SF Mono", Monaco, monospace; margin: 18px 0; }
+  pre code { background: transparent; padding: 0; color: inherit; }
+
+  .verdict {
+    padding: 22px 28px;
+    border-radius: 10px;
+    margin: 28px 0;
+    font-size: 18px;
+    font-weight: 700;
+  }
+  .verdict.pass { background: var(--green-soft); color: var(--green); border-left: 4px solid var(--green); }
+
+  .callout {
+    background: var(--gold-soft);
+    border-left: 4px solid var(--gold);
+    padding: 20px 24px;
+    margin: 24px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .callout .label {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 8px;
+  }
+  .callout p:last-child { margin-bottom: 0; }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 18px 0;
+    font-size: 14px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  th { text-align: left; padding: 10px 14px; background: var(--ink); color: white; font-weight: 600; font-size: 13px; }
+  td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; line-height: 1.45; }
+  tr:last-child td { border-bottom: none; }
+
+  .diagram { margin: 28px 0; padding: 28px 20px 16px; background: var(--card-bg); border: 1px solid var(--border); border-radius: 10px; }
+  .diagram svg { display: block; width: 100%; height: auto; max-width: 820px; margin: 0 auto; }
+  .diagram-caption { text-align: center; font-size: 12px; color: var(--muted); margin-top: 12px; font-style: italic; }
+
+  footer { margin-top: 56px; padding-top: 20px; border-top: 1px solid var(--border); font-size: 13px; color: var(--muted); }
+  footer a { color: var(--accent); }
+
+  @media (max-width: 640px) { .page { padding: 36px 22px 48px; } h1 { font-size: 26px; } }
+  @media print { body { background: white; } .page { padding: 24px; max-width: 100%; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+<header class="hero">
+  <div class="eyebrow">Hackathon Feedback · Review #1</div>
+  <h1>Pipeline Architecture Review</h1>
+  <p class="subtitle">Submitted pipeline design reviewed against the contract (demo-requirements.md sections 1-9).</p>
+</header>
+
+<div class="verdict pass">
+  Verdict: This design maps cleanly to the contract. One refinement recommended.
+</div>
+
+<h2>The submitted architecture</h2>
+
+<figure class="diagram">
+<svg viewBox="0 0 860 520" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Submitted pipeline architecture: Ingest, Classify, Route, Proofread, Validate, Remediate or Emit">
+  <defs>
+    <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#a67c2e"/></marker>
+    <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#5a5a6e"/></marker>
+  </defs>
+
+  <!-- Stage boxes - top row -->
+  <rect x="10" y="20" width="170" height="90" rx="8" fill="#fff" stroke="#2d5a7b" stroke-width="2"/>
+  <text x="95" y="50" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="14" font-weight="700" fill="#1a1a2e">Ingest PDF</text>
+  <text x="95" y="72" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#5a5a6e">Load source PDF and stage</text>
+  <text x="95" y="86" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#5a5a6e">page-level content</text>
+
+  <line x1="185" y1="65" x2="215" y2="65" stroke="#5a5a6e" stroke-width="2" marker-end="url(#ag)"/>
+
+  <rect x="220" y="20" width="170" height="90" rx="8" fill="#fff" stroke="#2d5a7b" stroke-width="2"/>
+  <text x="305" y="50" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="14" font-weight="700" fill="#1a1a2e">Classify Pages</text>
+  <text x="305" y="72" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#5a5a6e">Assign content types to</text>
+  <text x="305" y="86" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#5a5a6e">support extraction routing</text>
+
+  <line x1="395" y1="65" x2="425" y2="65" stroke="#5a5a6e" stroke-width="2" marker-end="url(#ag)"/>
+
+  <rect x="430" y="20" width="190" height="90" rx="8" fill="#e8eef3" stroke="#2d5a7b" stroke-width="2"/>
+  <text x="525" y="45" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="14" font-weight="700" fill="#1a1a2e">Route Pages</text>
+  <text x="525" y="58" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="600" fill="#2d5a7b">SUBPROCESS</text>
+  <text x="525" y="78" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#5a5a6e">Launch extraction bundle for</text>
+  <text x="525" y="92" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#5a5a6e">content-specific paths</text>
+
+  <line x1="625" y1="65" x2="655" y2="65" stroke="#5a5a6e" stroke-width="2" marker-end="url(#ag)"/>
+
+  <rect x="660" y="20" width="185" height="90" rx="8" fill="#fdf6e8" stroke="#a67c2e" stroke-width="2"/>
+  <text x="752" y="50" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="14" font-weight="700" fill="#a67c2e">Run Proofreader</text>
+  <text x="752" y="72" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#5a5a6e">Verify against mandatory</text>
+  <text x="752" y="86" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#5a5a6e">arithmetic checks</text>
+
+  <!-- Arrow down from proofreader to decision -->
+  <line x1="752" y1="115" x2="430" y2="280" stroke="#a67c2e" stroke-width="2" marker-end="url(#ar)"/>
+
+  <!-- Decision diamond -->
+  <polygon points="430,250 520,300 430,350 340,300" fill="#fff" stroke="#a67c2e" stroke-width="2"/>
+  <text x="430" y="292" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#a67c2e">Validation</text>
+  <text x="430" y="308" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="12" font-weight="700" fill="#a67c2e">Gate</text>
+
+  <!-- Fail path - right to Supervisor -->
+  <line x1="525" y1="300" x2="575" y2="300" stroke="#a67c2e" stroke-width="2"/>
+  <text x="553" y="290" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" font-weight="600" fill="#b5332e">fail</text>
+  <line x1="575" y1="300" x2="605" y2="300" stroke="#a67c2e" stroke-width="2" marker-end="url(#ar)"/>
+
+  <rect x="610" y="255" width="200" height="90" rx="8" fill="#f8e8e8" stroke="#b5332e" stroke-width="2"/>
+  <text x="710" y="280" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="14" font-weight="700" fill="#b5332e">Supervisor Remediate</text>
+  <text x="710" y="298" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="9" font-weight="600" fill="#b5332e">SUBPROCESS</text>
+  <text x="710" y="318" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#5a5a6e">Re-extract failed items with</text>
+  <text x="710" y="332" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#5a5a6e">alternate methods</text>
+
+  <!-- Remediate loops back to Proofreader (the recommended fix) -->
+  <path d="M 810 300 Q 850 300 850 180 Q 850 65 848 65" fill="none" stroke="#a67c2e" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ar)"/>
+  <text x="838" y="180" font-family="-apple-system,sans-serif" font-size="9" fill="#a67c2e" font-weight="600" transform="rotate(-90 838 180)">re-validate</text>
+
+  <!-- Pass path - down to Emit -->
+  <line x1="430" y1="355" x2="430" y2="395" stroke="#a67c2e" stroke-width="2"/>
+  <text x="445" y="378" font-family="-apple-system,sans-serif" font-size="10" font-weight="600" fill="#2d7b45">pass</text>
+  <line x1="430" y1="395" x2="430" y2="415" stroke="#a67c2e" stroke-width="2" marker-end="url(#ar)"/>
+
+  <rect x="330" y="420" width="200" height="80" rx="8" fill="#e8f3ec" stroke="#2d7b45" stroke-width="2"/>
+  <text x="430" y="450" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="14" font-weight="700" fill="#2d7b45">Emit Output</text>
+  <text x="430" y="472" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#5a5a6e">Write verified memo and</text>
+  <text x="430" y="486" text-anchor="middle" font-family="-apple-system,sans-serif" font-size="10" fill="#5a5a6e">validation report to disk</text>
+</svg>
+<figcaption class="diagram-caption">Submitted pipeline architecture with the recommended re-validation loop (dashed line) from Supervisor back to Proofreader.</figcaption>
+</figure>
+
+<h2>Contract mapping</h2>
+
+<p>Each stage maps cleanly to a functional outcome from the contract:</p>
+
+<table>
+  <thead>
+    <tr><th>Pipeline stage</th><th>Contract outcome</th><th>Status</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Ingest PDF</td><td>--</td><td>Scaffolding (no FO)</td></tr>
+    <tr><td>Classify Pages</td><td>FO1 — Content-aware routing</td><td>Covered</td></tr>
+    <tr><td>Route Pages (subprocess)</td><td>FO2 Header, FO3 Tables, FO4 Narrative</td><td>Covered (extraction bundle)</td></tr>
+    <tr><td>Run Proofreader</td><td>FO5 — Arithmetic verification</td><td>Covered</td></tr>
+    <tr><td>Validation Gate + Supervisor</td><td>FO6 — Observable error recovery</td><td>Covered</td></tr>
+    <tr><td>Emit Output</td><td>FO7 — Structured output with provenance</td><td>Covered</td></tr>
+  </tbody>
+</table>
+
+<h2>What's strong</h2>
+
+<ul>
+  <li><strong>The validation gate as a decision diamond.</strong> Making the pass/fail branch an explicit first-class architectural element — not buried inside the proofreader — is a mature design choice. Failed memos route to remediation; passing memos route to output. The error recovery loop (FO6) is baked into the flow as a concept, not bolted on.</li>
+  <li><strong>SUBPROCESS tags on Route Pages and Supervisor.</strong> This suggests a workflow orchestration tool (Prefect, Dagster, Temporal, or similar) rather than an ad-hoc script. That's a different and completely valid architectural choice compared to the reference implementation's agent-based approach. The contract doesn't prescribe architecture — it prescribes outcomes.</li>
+  <li><strong>"Extraction bundle" abstraction.</strong> Route Pages launches a content-specific extraction bundle rather than hard-coding individual specialist agents. This is a clean separation of concerns — the routing layer doesn't know or care how each content type is extracted, it just dispatches to the right bundle.</li>
+</ul>
+
+<h2>One recommended refinement</h2>
+
+<div class="callout">
+  <div class="label">The re-validation loop</div>
+  <p>The current diagram shows the Supervisor Remediate stage, but it's not clear where the remediated output goes after re-extraction. If it flows directly to Emit Output without being re-checked, a bad retry could slip through unchecked.</p>
+  <p><strong>Recommendation:</strong> Route the Supervisor's output back to <strong>Run Proofreader</strong> so re-extracted values get validated before they reach Emit Output. Add a max-retry cap (2-3 attempts) so it doesn't loop forever. If checks still fail after retries, emit the output anyway with the failing checks marked as <code>"status": "fail"</code> in the validation report — that's still a demoable and honest result.</p>
+</div>
+
+<p>The corrected flow:</p>
+
+<pre><code>Ingest PDF
+  → Classify Pages
+    → Route Pages (extraction bundle)
+      → Run Proofreader
+        → Validation Gate
+          → PASS → Emit Output
+          → FAIL → Supervisor Remediate
+                     → Run Proofreader (again, max 2-3 retries)
+                       → still failing? → Emit Output with failures marked</code></pre>
+
+<h2>Tracking toward tier</h2>
+
+<p>This architecture is structurally complete — every FO is covered. The question now is which checks are actually passing inside the extraction bundle. If you're getting the routing and proofreading stages wired up, run the validator to see where you stand:</p>
+
+<pre><code>cd starter-kit
+python3 validate.py ../your-output.json</code></pre>
+
+<p>The validator will tell you which tier you've reached (Bronze/Silver/Gold) and exactly which checks are failing so you know where to focus next.</p>
+
+<h2>Summary</h2>
+
+<p>This is a solid pipeline design. The six stages map directly to the seven functional outcomes in the contract. The validation gate is the right architectural choice. The one fix — looping remediated output back through the proofreader — is a refinement, not a redesign. If the extraction bundle is producing numbers, this team is tracking for Silver or Gold by Sunday.</p>
+
+<footer>
+  Reviewed against the <a href="../demo-requirements.html">Demo Requirements Contract</a> (sections 1-9) · Part of the <a href="https://jymiller.github.io/creditmemo/">Credit Memo Refinery Hackathon</a>
+</footer>
+
+</div>
+</body>
+</html>
