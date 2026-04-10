@@ -339,15 +339,58 @@
     .subtitle { font-size: 17px; }
     .intro { padding: 22px 24px; font-size: 15px; }
   }
+  .banner {
+    background: var(--ink);
+    color: #ffffff;
+    padding: 14px 24px;
+    font-size: 14px;
+    line-height: 1.55;
+    border-bottom: 3px solid var(--gold);
+  }
+  .banner-inner {
+    max-width: 920px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+  .banner-tag {
+    background: var(--gold);
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding: 4px 12px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .banner-text { color: #c4c4d0; }
+  .banner-text strong { color: var(--gold-bright); }
+  .banner-text a { color: var(--gold-bright); text-decoration: underline; text-underline-offset: 2px; }
+  @media (max-width: 600px) {
+    .banner { padding: 12px 18px; font-size: 13px; }
+    .banner-inner { gap: 10px; }
+  }
 </style>
 </head>
 <body>
+
+<div class="banner">
+  <div class="banner-inner">
+    <span class="banner-tag">Experiment</span>
+    <span class="banner-text">This is a <strong>virtual hackathon experiment</strong> — a weekend of building, breaking, and learning together around a real business problem. All skill levels welcome. Mistakes are the point. <a href="https://github.com/jymiller/creditmemo/blob/main/HACKATHON.md">Read the hackathon guide</a> | <a href="https://discord.gg/PCMcgK2P">Join the Discord</a></span>
+  </div>
+</div>
+
 <div class="page">
 
 <header class="hero">
   <div class="eyebrow">Credit Memo Refinery</div>
   <h1>From Dormant Archive to Proprietary Data Moat</h1>
-  <p class="subtitle">A strategic brief, an executive one-pager, and a weekend hackathon specification for turning a bank's credit memo backlog into a structural competitive advantage.</p>
+  <p class="subtitle">A virtual hackathon experiment: solve a real business use case, have fun, and maybe learn a thing or two along the way.</p>
 </header>
 
 <div class="intro">
