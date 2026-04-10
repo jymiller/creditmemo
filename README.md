@@ -37,6 +37,34 @@ Developer-friendly versions that render natively on GitHub:
 
 - [`Sample-Enhanced-Memo.pdf`](Sample-Enhanced-Memo.pdf) — 22-page sample credit memorandum used as the input for the weekend hackathon demo.
 
+### Starter kit
+
+- [`starter-kit/`](starter-kit/) — everything you need to go from zero to "something runs" in 30 minutes:
+  - `sample-output.json` — reference output showing the target shape
+  - `validate.py` — tiered proofreader (Bronze/Silver/Gold) that checks your output
+  - `quickstart.py` — extract your first field in 5 minutes
+  - `setup-check.sh` — verify your environment is ready
+  - `schemas.py` — importable Pydantic schema from the contract
+  - `.env.example` — environment variable template
+
+---
+
+## Hackathon
+
+**Start here: [`HACKATHON.md`](HACKATHON.md)**
+
+The event guide covers spirit, team formation, schedule, tiered success, awards, and how to get running in 30 minutes. Any skill level welcome — engineers, domain experts, designers, curious humans.
+
+### Quick start
+
+```bash
+git clone https://github.com/jymiller/creditmemo.git
+cd creditmemo/starter-kit
+bash setup-check.sh        # verify your environment
+python3 validate.py sample-output.json  # see what Gold looks like
+python3 quickstart.py      # extract your first field
+```
+
 ---
 
 ## For hackathon participants

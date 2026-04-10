@@ -1,0 +1,194 @@
+{
+  "document_id": "sample-enhanced-memo",
+  "memo_date": {
+    "value": "2022-04-14",
+    "source": {"page": 1, "agent": "form", "method": "claude-structured", "confidence": 1.0}
+  },
+  "borrower_name": {
+    "value": "BORROWER",
+    "source": {"page": 1, "agent": "form", "method": "claude-structured", "confidence": 1.0}
+  },
+  "loan": {
+    "amount": {
+      "value": 514500,
+      "source": {"page": 1, "agent": "form", "method": "claude-structured", "confidence": 1.0}
+    },
+    "rate": {
+      "value": 4.75,
+      "source": {"page": 1, "agent": "form", "method": "claude-structured", "confidence": 1.0}
+    },
+    "rate_type": {
+      "value": "Fixed",
+      "source": {"page": 1, "agent": "form", "method": "claude-structured", "confidence": 1.0}
+    },
+    "term_years": {
+      "value": 5,
+      "source": {"page": 1, "agent": "form", "method": "claude-structured", "confidence": 1.0}
+    },
+    "amortization_years": {
+      "value": 30,
+      "source": {"page": 1, "agent": "form", "method": "claude-structured", "confidence": 1.0}
+    }
+  },
+  "collateral": {
+    "asset_type": {
+      "value": "Multifamily (5+ units) Property",
+      "source": {"page": 1, "agent": "form", "method": "claude-structured", "confidence": 1.0}
+    },
+    "address": {
+      "value": "COLLATERAL ADDRESS",
+      "source": {"page": 1, "agent": "form", "method": "claude-structured", "confidence": 1.0}
+    },
+    "estimated_value": {
+      "value": 735000,
+      "source": {"page": 1, "agent": "form", "method": "claude-structured", "confidence": 1.0}
+    },
+    "ltv_pct": {
+      "value": 70,
+      "source": {"page": 1, "agent": "form", "method": "claude-structured", "confidence": 1.0}
+    },
+    "lien_position": {
+      "value": "1st Lien Position",
+      "source": {"page": 2, "agent": "form", "method": "claude-structured", "confidence": 1.0}
+    }
+  },
+  "guarantors": [
+    {
+      "name": {
+        "value": "GUARANTOR 1",
+        "source": {"page": 1, "agent": "form", "method": "claude-structured", "confidence": 1.0}
+      },
+      "credit_score": {
+        "value": 734,
+        "source": {"page": 1, "agent": "form", "method": "claude-structured", "confidence": 1.0}
+      },
+      "ownership_pct": {
+        "value": 50,
+        "source": {"page": 1, "agent": "form", "method": "claude-structured", "confidence": 1.0}
+      },
+      "stated_net_worth": {
+        "value": 3689440,
+        "source": {"page": 4, "agent": "table", "method": "pdfplumber-lattice", "confidence": 1.0}
+      }
+    },
+    {
+      "name": {
+        "value": "GUARANTOR 2",
+        "source": {"page": 1, "agent": "form", "method": "claude-structured", "confidence": 1.0}
+      },
+      "credit_score": {
+        "value": 775,
+        "source": {"page": 1, "agent": "form", "method": "claude-structured", "confidence": 1.0}
+      },
+      "ownership_pct": {
+        "value": 50,
+        "source": {"page": 1, "agent": "form", "method": "claude-structured", "confidence": 1.0}
+      },
+      "stated_net_worth": {
+        "value": 890300,
+        "source": {"page": 6, "agent": "table", "method": "pdfplumber-lattice", "confidence": 1.0}
+      }
+    }
+  ],
+  "sources": [
+    {"name": "American Heritage FCU", "amount": 514500}
+  ],
+  "uses": [
+    {"name": "Payoff CU LOAN #XXXXX", "amount": 229742},
+    {"name": "Cash out", "amount": 284758}
+  ],
+  "tables": [
+    {
+      "name": "Guarantor 1 Net Worth",
+      "rows": [
+        {"category": "ASSETS", "label": "Cash - savings accounts", "12/26/2021": 370150},
+        {"category": "ASSETS", "label": "Personal Property (autos, jewelry, etc.)", "12/26/2021": 5500},
+        {"category": "ASSETS", "label": "Retirement Funds (eg. IRAs, 401k)", "12/26/2021": 659527},
+        {"category": "ASSETS", "label": "Real Estate (market value)", "12/26/2021": 650000},
+        {"category": "ASSETS", "label": "Value Closely Held Business Entity", "12/26/2021": 425000},
+        {"category": "ASSETS", "label": "Investment Real Estate", "12/26/2021": 2650000},
+        {"category": "ASSETS", "label": "Total Assets", "12/26/2021": 4760177},
+        {"category": "LIABILITIES", "label": "Current Debt (Credit cards, Accounts)", "12/26/2021": 15700},
+        {"category": "LIABILITIES", "label": "Real Estate Mortgages", "12/26/2021": 127061},
+        {"category": "LIABILITIES", "label": "DS Investment Real Estate", "12/26/2021": 927976},
+        {"category": "LIABILITIES", "label": "Total Liabilities", "12/26/2021": 1070737},
+        {"category": "NET WORTH", "label": "Total Stated Net Worth (subT)", "12/26/2021": 3689440},
+        {"category": "NET WORTH", "label": "Ratio. Debt: Worth", "12/26/2021": 0.29},
+        {"category": "ADJUSTED", "label": "Assets", "12/26/2021": 4760177},
+        {"category": "ADJUSTED", "label": "(Liabilities)", "12/26/2021": -1070737},
+        {"category": "ADJUSTED", "label": "Adjustments to Net Worth", "12/26/2021": -425000},
+        {"category": "ADJUSTED", "label": "Total Adjusted Net Worth", "12/26/2021": 3264440},
+        {"category": "ADJUSTED", "label": "Ratio. D:ANW", "12/26/2021": 0.33}
+      ],
+      "source": {"page": 4, "agent": "table", "method": "pdfplumber-lattice", "confidence": 0.95}
+    },
+    {
+      "name": "Guarantor 1 Personal Cash Flow",
+      "rows": [
+        {"label": "Wages", "12/31/2018": 117046, "12/31/2019": 120117, "12/31/2020": 125721, "Projected": 124622},
+        {"label": "Interest/Dividend Income", "12/31/2018": 13, "12/31/2019": 14812, "12/31/2020": 5186, "Projected": 5186},
+        {"label": "Distributions < Capital Contributions", "12/31/2018": 0, "12/31/2019": 2840, "12/31/2020": 1932, "Projected": 9950},
+        {"label": "Net Income", "12/31/2018": -9549, "12/31/2019": -3138, "12/31/2020": -110987, "Projected": 106632},
+        {"label": "Total Schedule C Income", "12/31/2018": 1001, "12/31/2019": 10502, "12/31/2020": 14593, "Projected": 106632},
+        {"label": "Total Income (subT)", "12/31/2018": 118060, "12/31/2019": 148271, "12/31/2020": 147432, "Projected": 246390},
+        {"label": "Living Expenses", "12/31/2018": 23612, "12/31/2019": 29654, "12/31/2020": 29486, "Projected": 49278},
+        {"label": "Income Tax Expense", "12/31/2018": 14098, "12/31/2019": 34822, "12/31/2020": 6115, "Projected": 32031},
+        {"label": "Total Adjustments to CF", "12/31/2018": 37710, "12/31/2019": 64476, "12/31/2020": 35601, "Projected": 81309},
+        {"label": "Gross Cash Flow (subT)", "12/31/2018": 80350, "12/31/2019": 83795, "12/31/2020": 111831, "Projected": 165081},
+        {"label": "Mortgage", "12/31/2018": 9216, "12/31/2019": 14040, "12/31/2020": 25032, "Projected": 97248},
+        {"label": "Installment", "12/31/2018": 4320, "12/31/2019": 4320, "12/31/2020": 4320, "Projected": 4320},
+        {"label": "Revolving", "12/31/2018": 3768, "12/31/2019": 3768, "12/31/2020": 3768, "Projected": 3768},
+        {"label": "Total Debt", "12/31/2018": 17304, "12/31/2019": 22128, "12/31/2020": 33120, "Projected": 105336},
+        {"label": "Excess Funds", "12/31/2018": 63046, "12/31/2019": 61667, "12/31/2020": 78711, "Projected": 59745},
+        {"label": "DSCR", "12/31/2018": 4.64, "12/31/2019": 3.79, "12/31/2020": 3.38, "Projected": 1.57}
+      ],
+      "source": {"page": 5, "agent": "table", "method": "pdfplumber-lattice", "confidence": 0.90}
+    },
+    {
+      "name": "Global Cash Flow",
+      "rows": [
+        {"entity": "BORROWER", "label": "Cash Available to Debt Service", "2019": 29231, "2020": 27599, "2021": 12862, "Projected": 32845},
+        {"entity": "BORROWER", "label": "Total Debt Service", "2019": 15780, "2020": 15780, "2021": 15780, "Projected": 32208},
+        {"entity": "BORROWER", "label": "BORROWER Excess Cash Flow", "2019": 13451, "2020": 11819, "2021": -2918, "Projected": 637},
+        {"entity": "BORROWER", "label": "BORROWER Cash Flow Coverage", "2019": 1.85, "2020": 1.75, "2021": 0.82, "Projected": 1.02},
+        {"entity": "GUARANTOR 1", "label": "Cash Available to Debt Service", "2019": 83795, "2020": 111831, "2021": 165081, "Projected": 165081},
+        {"entity": "GUARANTOR 1", "label": "Total Debt Service", "2019": 22128, "2020": 33120, "2021": 105336, "Projected": 105336},
+        {"entity": "GUARANTOR 1", "label": "GUARANTOR 1 Excess Cash Flow", "2019": 61667, "2020": 78711, "2021": 59745, "Projected": 59745},
+        {"entity": "GUARANTOR 1", "label": "GUARANTOR 1 Cash Flow Coverage", "2019": 3.79, "2020": 3.38, "2021": 1.57, "Projected": 1.57},
+        {"entity": "GUARANTOR 2", "label": "Cash Available to Debt Service", "2019": 76474, "2020": 76639, "2021": 78366, "Projected": 87261},
+        {"entity": "GUARANTOR 2", "label": "Total Debt Service", "2019": 28152, "2020": 40260, "2021": 40260, "Projected": 40260},
+        {"entity": "GUARANTOR 2", "label": "GUARANTOR 2 Excess Cash Flow", "2019": 48322, "2020": 36379, "2021": 38106, "Projected": 47001},
+        {"entity": "GUARANTOR 2", "label": "GUARANTOR 2 Cash Flow Coverage", "2019": 2.72, "2020": 1.90, "2021": 1.95, "Projected": 2.17},
+        {"entity": "TOTAL", "label": "Total Combined Cash", "2019": 189500, "2020": 216069, "2021": 256309, "Projected": 285187},
+        {"entity": "TOTAL", "label": "Total Combined Debt Service", "2019": 66060, "2020": 89160, "2021": 161376, "Projected": 177804},
+        {"entity": "TOTAL", "label": "Global Excess Cash Flow", "2019": 123440, "2020": 126909, "2021": 94933, "Projected": 107383},
+        {"entity": "TOTAL", "label": "Global Cash Flow Coverage", "2019": 2.87, "2020": 2.42, "2021": 1.59, "Projected": 1.60}
+      ],
+      "source": {"page": 12, "agent": "table", "method": "pdfplumber-lattice", "confidence": 0.85}
+    }
+  ],
+  "strengths": [
+    "Existing members of CU and the relationship has been handled as agreed",
+    "Experience of personal guarantors as real estate investors",
+    "Good credit scores of personal guarantors",
+    "Good global DSCR, historically and on a pro-forma basis"
+  ],
+  "weaknesses": [
+    "Personal guarantors appear to be highly leveraged",
+    "Transactional DSCR is below CU recommended minimum",
+    "Leases are all considered month-to-month",
+    "Inherent risks associated with investment real estate"
+  ],
+  "analyst_notes": "Borrower is seeking a mortgage secured by a 1st mortgage lien on the fully leased two-story multifamily building with finished basement that contains a total of 6, 1-bedroom, 1-bathroom apartment units located at COLLATERAL ADDRESS. Funds will be used to pay off and close an existing CU LOAN #XXXX, as well as, recapture equity that will be reinvested into future real estate investment projects. The personal guarantors demonstrate good credit scores, personal cash flow and have experience owning investment real estate. The global DSCR is sufficient historically and on a pro-forma basis. Based on the strengths/weaknesses, the analyst agrees with the given risk rating. The CU should obtain account statements for GUARANTOR 2 to verify the remaining personal liquidity positions and ability to support the repayment of debt in the event of cash flow interruptions.",
+  "validation": [
+    {"name": "C1 Sources = Uses", "formula": "sum(sources.amount) == sum(uses.amount)", "expected": 514500, "observed": 514500, "status": "pass", "source_pages": [2]},
+    {"name": "C2 G1 stated net worth", "formula": "total_assets - total_liabilities", "expected": 3689440, "observed": 3689440, "status": "pass", "source_pages": [4]},
+    {"name": "C3 G1 adjusted net worth", "formula": "assets - liabilities - adjustments", "expected": 3264440, "observed": 3264440, "status": "pass", "source_pages": [4]},
+    {"name": "C4 G2 stated net worth", "formula": "total_assets - total_liabilities", "expected": 890300, "observed": 890300, "status": "pass", "source_pages": [6]},
+    {"name": "C5 Ownership sum", "formula": "sum(guarantor.ownership_pct) == 100", "expected": 100, "observed": 100, "status": "pass", "source_pages": [1]},
+    {"name": "C6 G1 DSCR 2020", "formula": "gross_cash_flow / total_debt", "expected": 3.38, "observed": 3.38, "status": "pass", "source_pages": [5]},
+    {"name": "C7 Global DSCR 2019", "formula": "total_combined_cash / total_combined_debt_service", "expected": 2.87, "observed": 2.87, "status": "pass", "source_pages": [12]},
+    {"name": "C8 Rent roll sum", "formula": "sum(unit_rents) * 12", "expected": 53400, "observed": 53400, "status": "pass", "source_pages": [2, 13]},
+    {"name": "C9 Cross-page rents", "formula": "narrative(p8) == transactional(p17)", "expected": 53400, "observed": 53400, "status": "pass", "source_pages": [8, 17]}
+  ]
+}
