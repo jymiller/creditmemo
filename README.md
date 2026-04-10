@@ -51,7 +51,7 @@ Developer-friendly versions that render natively on GitHub:
 
 ## Hackathon
 
-**Start here: [`HACKATHON.md`](HACKATHON.md)**
+**Start here: [`HACKATHON.md`](HACKATHON.md)** | **[Join the Discord](https://discord.gg/PCMcgK2P)**
 
 The event guide covers spirit, team formation, schedule, tiered success, awards, and how to get running in 30 minutes. Any skill level welcome — engineers, domain experts, designers, curious humans.
 

@@ -57,7 +57,7 @@ A two-person team can combine roles. A solo participant can do all four with an 
 
 **If you're the organizer:** At Saturday morning kickoff, ask everyone to introduce themselves with one sentence: name, skill, and one thing they're curious about. Then let people self-organize into teams of 2-4, optimizing for skill diversity over friendship. Shuffle if any team is all-engineers or all-non-technical.
 
-**If you're remote:** Pick a team in the Discord/chat channel. Or go solo with your AI — a solo builder with Claude Code can absolutely hit Bronze by Sunday.
+**If you're remote:** Join the [Hackathon Discord](https://discord.gg/PCMcgK2P) and pick a team in `#introductions`. Or go solo with your AI — a solo builder with Claude Code can absolutely hit Bronze by Sunday.
 
 ---
 
@@ -192,7 +192,7 @@ Your AI pair programmer is a first-class teammate. Here are ways to use it well:
 
 We want to hear about your experience — what worked, what was confusing, what was fun, what you'd change.
 
-- **During the event:** Drop notes, screenshots, and reactions in the GitHub Discussions tab on the repo (`github.com/jymiller/creditmemo/discussions`). There's a "Hackathon Feedback" discussion thread pinned for this purpose.
+- **During the event:** Drop notes, screenshots, and reactions in the [Hackathon Discord](https://discord.gg/PCMcgK2P) — use the `#feedback` channel for suggestions and the `#wall-of-fails` channel for your most entertaining extraction errors.
 - **After the event:** Each team submits a one-page retrospective as part of the deliverables (see the contract in demo-requirements.md section 9).
 - **Informally:** Text, Slack, email — whatever's natural. The organizer will capture the highlights.
 
@@ -217,6 +217,7 @@ We want to hear about your experience — what worked, what was confusing, what 
 
 | Resource | Link |
 |---|---|
+| Discord | [Join the hackathon Discord](https://discord.gg/PCMcgK2P) |
 | GitHub Pages hub | [jymiller.github.io/creditmemo](https://jymiller.github.io/creditmemo/) |
 | Video walkthrough | [Loom](https://www.loom.com/share/8e1d2384a0e642e8896f36a2a60927d9) |
 | Technical contract | [demo-requirements.md](demo-requirements.md) (sections 1-9) |
