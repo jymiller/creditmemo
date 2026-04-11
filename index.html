@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Credit Memo Refinery — Document Set</title>
-<meta name="description" content="Strategic brief, executive one-pager, and demo requirements for turning a dormant credit memo archive into a proprietary data moat.">
+<title>Credit Memo Hackathon — Can You Crack the PDF?</title>
+<meta name="description" content="A weekend hackathon challenge: extract structured data from a real credit memo PDF. Any stack, any skill level. Nine checks. Can you pass them all?">
 <style>
   :root {
     --bg: #fafaf9;
@@ -17,6 +17,7 @@
     --gold-soft: #fdf6e8;
     --border: #d8d8d0;
     --card-bg: #ffffff;
+    --discord: #5865F2;
   }
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -30,16 +31,52 @@
     font-size: 16px;
     -webkit-font-smoothing: antialiased;
   }
+
+  /* -- Banner -- */
+  .banner {
+    background: var(--ink);
+    color: #ffffff;
+    padding: 12px 24px;
+    font-size: 13px;
+    line-height: 1.5;
+    border-bottom: 3px solid var(--gold);
+  }
+  .banner-inner {
+    max-width: 920px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+  }
+  .banner-tag {
+    background: var(--gold);
+    color: var(--ink);
+    font-weight: 700;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    padding: 3px 11px;
+    border-radius: 20px;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .banner-text { color: #c4c4d0; }
+  .banner-text strong { color: var(--gold-bright); }
+  .banner-text a { color: var(--gold-bright); text-decoration: underline; text-underline-offset: 2px; }
+
+  /* -- Page -- */
   .page {
     max-width: 920px;
     margin: 0 auto;
-    padding: 72px 40px 80px;
+    padding: 52px 40px 80px;
   }
 
+  /* -- Hero -- */
   header.hero {
     text-align: center;
-    padding-bottom: 36px;
-    margin-bottom: 12px;
+    padding-bottom: 20px;
+    margin-bottom: 0;
   }
   .eyebrow {
     text-transform: uppercase;
@@ -47,112 +84,255 @@
     font-size: 12px;
     color: var(--gold);
     font-weight: 700;
-    margin-bottom: 16px;
+    margin-bottom: 14px;
   }
   h1 {
-    font-size: 44px;
+    font-size: 42px;
     line-height: 1.1;
-    margin: 0 0 14px;
+    margin: 0 0 16px;
     font-weight: 700;
     letter-spacing: -0.02em;
     color: var(--ink);
   }
   .subtitle {
-    font-size: 20px;
+    font-size: 19px;
     color: var(--muted);
     margin: 0 auto;
-    max-width: 640px;
+    max-width: 660px;
     line-height: 1.5;
   }
+  h2 {
+    font-size: 22px;
+    margin: 0 0 14px;
+    font-weight: 700;
+    color: var(--ink);
+  }
 
-  .intro {
+  /* -- Questions block -- */
+  .questions {
+    margin: 48px 0 16px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+  .question {
+    padding: 20px 22px;
     background: var(--ink);
     color: #ffffff;
-    padding: 26px 32px;
-    border-radius: 12px;
-    margin: 40px 0 48px;
-    font-size: 16px;
-    line-height: 1.6;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    border-radius: 10px;
+    font-size: 15px;
+    line-height: 1.5;
+    font-style: italic;
+    position: relative;
+    padding-left: 48px;
   }
-  .intro strong { color: var(--gold-bright); }
-  .intro p { margin: 0; }
-
-  .video-cta {
-    display: flex;
-    align-items: center;
-    gap: 22px;
-    padding: 22px 28px;
-    background: var(--ink);
-    color: white;
-    border-radius: 12px;
-    text-decoration: none;
-    margin: 0 0 48px;
-    transition: transform 0.15s ease, box-shadow 0.15s ease;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
-  }
-  .video-cta:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 28px rgba(0,0,0,0.18);
-  }
-  .video-cta .play-icon {
-    flex-shrink: 0;
-    width: 58px;
-    height: 58px;
+  .question::before {
+    content: "?";
+    position: absolute;
+    left: 18px;
+    top: 18px;
+    width: 22px;
+    height: 22px;
     background: var(--gold);
+    color: var(--ink);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: transform 0.15s ease;
+    font-weight: 800;
+    font-size: 13px;
+    font-style: normal;
   }
-  .video-cta:hover .play-icon {
-    transform: scale(1.05);
+  .questions-caption {
+    text-align: center;
+    font-size: 14px;
+    color: var(--muted);
+    margin: 10px 0 0;
   }
-  .video-cta .play-icon svg {
-    width: 22px;
-    height: 22px;
-    fill: #1a1a2e;
-    margin-left: 4px;
+  .questions-caption strong { color: var(--ink); }
+
+  /* -- Challenge block -- */
+  .challenge {
+    margin: 52px 0;
+    padding: 36px 36px 32px;
+    background: var(--gold-soft);
+    border: 2px solid var(--gold);
+    border-radius: 14px;
   }
-  .video-cta .cta-content {
-    flex-grow: 1;
-    min-width: 0;
+  .challenge h2 { color: var(--gold); margin-bottom: 10px; }
+  .challenge p { margin: 0 0 16px; font-size: 16px; }
+  .challenge p:last-of-type { margin-bottom: 0; }
+
+  .tiers {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 12px;
+    margin: 24px 0 0;
   }
-  .video-cta .cta-label {
-    font-size: 11px;
+  .tier {
+    text-align: center;
+    padding: 16px 14px;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  .tier .medal { font-size: 28px; margin-bottom: 6px; }
+  .tier .tier-name {
     font-weight: 700;
-    color: var(--gold-bright);
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    margin-bottom: 5px;
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: var(--ink);
   }
-  .video-cta .cta-title {
-    font-size: 19px;
-    font-weight: 700;
-    color: #ffffff;
-    margin-bottom: 6px;
-    letter-spacing: -0.005em;
-  }
-  .video-cta .cta-desc {
-    font-size: 13.5px;
-    color: #b8b8c8;
-    line-height: 1.5;
-  }
-  .video-cta .cta-host {
-    flex-shrink: 0;
-    color: var(--gold-bright);
-    font-weight: 700;
-    font-size: 11px;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    padding-left: 10px;
-  }
-  @media (max-width: 680px) {
-    .video-cta { flex-wrap: wrap; gap: 14px; padding: 20px 22px; }
-    .video-cta .cta-host { flex-basis: 100%; padding-left: 0; text-align: right; }
+  .tier .tier-desc {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
   }
 
+  /* -- CTA row -- */
+  .cta-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin: 0 0 56px;
+  }
+  .cta-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 24px 20px;
+    background: var(--card-bg);
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+  .cta-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    border-color: var(--accent);
+  }
+  .cta-card.primary {
+    border-color: var(--gold);
+    background: var(--gold-soft);
+  }
+  .cta-card.primary:hover {
+    border-color: var(--gold);
+    box-shadow: 0 6px 20px rgba(166,124,46,0.15);
+  }
+  .cta-card.discord { border-color: var(--discord); }
+  .cta-card.discord:hover { border-color: var(--discord); box-shadow: 0 6px 20px rgba(88,101,242,0.15); }
+  .cta-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 14px;
+    font-size: 22px;
+  }
+  .cta-card.primary .cta-icon { background: var(--gold); }
+  .cta-card.discord .cta-icon { background: var(--discord); }
+  .cta-card .cta-icon.code-icon { background: var(--accent); }
+  .cta-icon svg { width: 22px; height: 22px; }
+  .cta-card h3 {
+    font-size: 16px;
+    margin: 0 0 6px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .cta-card .cta-desc {
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.45;
+    margin: 0;
+  }
+
+  /* -- How it works -- */
+  .how-it-works {
+    margin: 0 0 56px;
+  }
+  .steps {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 14px;
+    margin: 16px 0 0;
+    counter-reset: step;
+  }
+  .step {
+    counter-increment: step;
+    padding: 20px 22px 18px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    position: relative;
+    padding-top: 48px;
+  }
+  .step::before {
+    content: counter(step);
+    position: absolute;
+    top: 16px;
+    left: 22px;
+    width: 26px;
+    height: 26px;
+    background: var(--accent);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    font-size: 13px;
+  }
+  .step h4 { margin: 0 0 6px; font-size: 14px; font-weight: 700; color: var(--ink); }
+  .step p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.5; }
+  .step code {
+    font-family: "SF Mono", Monaco, monospace;
+    font-size: 0.88em;
+    background: var(--accent-soft);
+    padding: 1px 5px;
+    border-radius: 3px;
+    color: var(--accent);
+  }
+
+  /* -- Video -- */
+  .video-cta {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    padding: 20px 26px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    color: var(--ink);
+    border-radius: 10px;
+    text-decoration: none;
+    margin: 0 0 14px;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+  }
+  .video-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+    border-color: var(--accent);
+  }
+  .video-cta .play-icon {
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .video-cta .play-icon svg { width: 18px; height: 18px; fill: #ffffff; margin-left: 3px; }
+  .video-cta .cta-content { flex-grow: 1; }
+  .video-cta .cta-title { font-size: 15px; font-weight: 700; color: var(--ink); }
+  .video-cta .cta-desc { font-size: 13px; color: var(--muted); margin-top: 2px; }
+
+  /* -- Section labels -- */
   .section-label {
     text-transform: uppercase;
     letter-spacing: 0.14em;
@@ -164,133 +344,85 @@
     border-bottom: 1px solid var(--border);
   }
 
+  /* -- Doc cards (reused for deeper reading) -- */
   .doc-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
+    gap: 14px;
     margin: 0 0 40px;
   }
   .doc-card {
     display: flex;
     flex-direction: column;
-    padding: 26px 26px 22px;
+    padding: 22px 22px 18px;
     background: var(--card-bg);
     border: 1px solid var(--border);
-    border-radius: 12px;
+    border-radius: 10px;
     text-decoration: none;
     color: inherit;
     transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-    position: relative;
   }
   .doc-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(0,0,0,0.08);
     border-color: var(--accent);
   }
-  .doc-card.featured {
-    border-color: var(--gold);
-    background: var(--gold-soft);
-  }
-  .doc-card.featured:hover {
-    border-color: var(--gold);
-    box-shadow: 0 6px 20px rgba(166,124,46,0.15);
-  }
   .doc-tag {
     display: inline-block;
     align-self: flex-start;
-    padding: 4px 11px;
+    padding: 3px 10px;
     border-radius: 20px;
     font-size: 10px;
     font-weight: 700;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     background: var(--accent-soft);
     color: var(--accent);
-    margin-bottom: 14px;
-  }
-  .doc-card.featured .doc-tag {
-    background: var(--gold);
-    color: #ffffff;
+    margin-bottom: 12px;
   }
   .doc-card h3 {
-    font-size: 22px;
-    margin: 0 0 12px;
+    font-size: 17px;
+    margin: 0 0 8px;
     font-weight: 700;
     color: var(--ink);
-    letter-spacing: -0.01em;
   }
   .doc-card .doc-desc {
-    font-size: 14px;
+    font-size: 13px;
     color: var(--muted);
-    line-height: 1.55;
-    margin: 0 0 18px;
+    line-height: 1.5;
+    margin: 0 0 14px;
     flex-grow: 1;
   }
   .doc-card .doc-meta {
-    font-size: 12px;
+    font-size: 11px;
     color: var(--muted);
-    padding-top: 14px;
+    padding-top: 12px;
     border-top: 1px solid var(--border);
     display: flex;
     justify-content: space-between;
-    align-items: center;
   }
-  .doc-card.featured .doc-meta { border-top-color: rgba(166,124,46,0.25); }
   .doc-card .open-link {
     color: var(--accent);
     font-weight: 700;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-  }
-  .doc-card.featured .open-link { color: var(--gold); }
-  .doc-card .open-link::after {
-    content: " →";
-  }
-
-  .reading-order {
-    background: var(--accent-soft);
-    border-left: 4px solid var(--accent);
-    padding: 22px 26px;
-    border-radius: 0 8px 8px 0;
-    margin: 0 0 48px;
-    font-size: 14.5px;
-    line-height: 1.6;
-  }
-  .reading-order strong { color: var(--accent); }
-  .reading-order p:last-child { margin-bottom: 0; }
-  .reading-order .label {
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
     font-size: 11px;
-    font-weight: 700;
-    color: var(--accent);
-    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
   }
+  .doc-card .open-link::after { content: " →"; }
 
+  /* -- Dev section -- */
   .dev-section {
     background: var(--card-bg);
     border: 1px solid var(--border);
     border-radius: 10px;
-    padding: 26px 32px;
+    padding: 24px 28px;
   }
-  .dev-section h2 {
-    font-size: 18px;
-    margin: 0 0 14px;
-    color: var(--ink);
-    font-weight: 700;
-  }
-  .dev-section p {
-    margin: 0 0 16px;
-    font-size: 14px;
-    color: var(--muted);
-    line-height: 1.6;
-  }
+  .dev-section h2 { font-size: 17px; margin: 0 0 12px; }
+  .dev-section p { margin: 0 0 14px; font-size: 13.5px; color: var(--muted); line-height: 1.55; }
   .dev-links {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin: 0;
+    gap: 8px;
   }
   .dev-link {
     display: flex;
@@ -305,20 +437,11 @@
     font-size: 13px;
     transition: border-color 0.15s ease, background 0.15s ease;
   }
-  .dev-link:hover {
-    border-color: var(--accent);
-    background: var(--accent-soft);
-  }
-  .dev-link .file {
-    font-family: "SF Mono", Monaco, Menlo, Consolas, monospace;
-    font-weight: 600;
-    color: var(--accent);
-  }
-  .dev-link .desc {
-    color: var(--muted);
-    font-size: 12px;
-  }
+  .dev-link:hover { border-color: var(--accent); background: var(--accent-soft); }
+  .dev-link .file { font-family: "SF Mono", Monaco, monospace; font-weight: 600; color: var(--accent); font-size: 12px; }
+  .dev-link .desc { color: var(--muted); font-size: 11px; }
 
+  /* -- Footer -- */
   footer {
     margin-top: 56px;
     padding-top: 24px;
@@ -329,50 +452,22 @@
   }
   footer a { color: var(--accent); }
 
+  /* -- Responsive -- */
   @media (max-width: 820px) {
-    .doc-grid { grid-template-columns: 1fr; }
-    .dev-links { grid-template-columns: 1fr; }
+    .questions, .cta-row, .steps, .doc-grid, .dev-links { grid-template-columns: 1fr; }
+    .tiers { grid-template-columns: 1fr; }
   }
   @media (max-width: 600px) {
-    .page { padding: 48px 22px 60px; }
-    h1 { font-size: 32px; }
-    .subtitle { font-size: 17px; }
-    .intro { padding: 22px 24px; font-size: 15px; }
+    .page { padding: 36px 22px 60px; }
+    h1 { font-size: 30px; }
+    .subtitle { font-size: 16px; }
+    .banner { padding: 10px 16px; font-size: 12px; }
+    .challenge { padding: 26px 24px; }
   }
-  .banner {
-    background: var(--ink);
-    color: #ffffff;
-    padding: 14px 24px;
-    font-size: 14px;
-    line-height: 1.55;
-    border-bottom: 3px solid var(--gold);
-  }
-  .banner-inner {
-    max-width: 920px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    flex-wrap: wrap;
-  }
-  .banner-tag {
-    background: var(--gold);
-    color: var(--ink);
-    font-weight: 700;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.14em;
-    padding: 4px 12px;
-    border-radius: 20px;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  .banner-text { color: #c4c4d0; }
-  .banner-text strong { color: var(--gold-bright); }
-  .banner-text a { color: var(--gold-bright); text-decoration: underline; text-underline-offset: 2px; }
-  @media (max-width: 600px) {
-    .banner { padding: 12px 18px; font-size: 13px; }
-    .banner-inner { gap: 10px; }
+  @media print {
+    body { background: white; }
+    .banner { display: none; }
+    .page { padding: 24px; max-width: 100%; }
   }
 </style>
 </head>
@@ -381,21 +476,98 @@
 <div class="banner">
   <div class="banner-inner">
     <span class="banner-tag">Experiment</span>
-    <span class="banner-text">This is a <strong>virtual hackathon experiment</strong> — a weekend of building, breaking, and learning together around a real business problem. All skill levels welcome. Mistakes are the point. <a href="https://github.com/jymiller/creditmemo/blob/main/HACKATHON.md">Read the hackathon guide</a> | <a href="https://discord.gg/PCMcgK2P">Join the Discord</a></span>
+    <span class="banner-text">This is a <strong>virtual hackathon experiment</strong> — a weekend of building, breaking, and learning together. All skill levels. Mistakes are the point. <a href="https://github.com/jymiller/creditmemo/blob/main/HACKATHON.md">Hackathon guide</a> | <a href="https://discord.gg/PCMcgK2P">Discord</a></span>
   </div>
 </div>
 
 <div class="page">
 
 <header class="hero">
-  <div class="eyebrow">Credit Memo Refinery</div>
-  <h1>From Dormant Archive to Proprietary Data Moat</h1>
-  <p class="subtitle">A virtual hackathon experiment: solve a real business use case, have fun, and maybe learn a thing or two along the way.</p>
+  <div class="eyebrow">Weekend Hackathon</div>
+  <h1>Can you teach an AI to read a credit memo?</h1>
+  <p class="subtitle">A 22-page PDF. Nine math puzzles hidden inside it. Your AI teammate. Whatever tools you want. Go.</p>
 </header>
 
-<div class="intro">
-  <p>Every commercial bank sits on decades of credit memos containing proprietary information no competitor has — <strong>your</strong> borrowers, <strong>your</strong> losses, <strong>your</strong> analysts' judgments. Almost none of it is queryable. This document set makes the business case for activating that dormant asset, shows the architecture that makes it possible, and scopes a concrete weekend demo that proves the critical link.</p>
+<!-- THE HOOK: Questions the bank can't answer today -->
+
+<div class="questions">
+  <div class="question">"Which of my current borrowers look like the ones that defaulted in 2008?"</div>
+  <div class="question">"What's this prospect's DSCR compared to similar deals we've closed?"</div>
+  <div class="question">"How does this guarantor's leverage compare to our portfolio average?"</div>
+  <div class="question">"Are the rents on page 8 consistent with the cash flow table on page 17?"</div>
 </div>
+<p class="questions-caption"><strong>Banks can't answer these today.</strong> The data is trapped in PDFs. This weekend, you're going to set it free.</p>
+
+<!-- THE CHALLENGE -->
+
+<div class="challenge">
+  <h2>The Challenge</h2>
+  <p>We give you one real credit memo — a 22-page PDF for a $514,500 multifamily loan in Philadelphia. It has form fields, financial tables, analyst commentary, infographics, and property photos. Every content type that makes PDF extraction hard.</p>
+  <p>Your job: extract structured data from it, verify the math, and show where every number came from. Use any language, any framework, any AI. The only thing that matters is whether your output passes the scorecard.</p>
+
+  <div class="tiers">
+    <div class="tier">
+      <div class="tier-name" style="color: #8B6914;">Bronze</div>
+      <div class="tier-desc">3 of 9 checks passing. "I can extract numbers and the math adds up."</div>
+    </div>
+    <div class="tier">
+      <div class="tier-name" style="color: #6a6a78;">Silver</div>
+      <div class="tier-desc">6 of 9. "I can extract tables and cross-reference across pages."</div>
+    </div>
+    <div class="tier">
+      <div class="tier-name" style="color: var(--gold);">Gold</div>
+      <div class="tier-desc">All 9. "Every check passes." Full scorecard satisfied.</div>
+    </div>
+  </div>
+</div>
+
+<!-- CTAs -->
+
+<div class="cta-row">
+  <a class="cta-card primary" href="https://github.com/jymiller/creditmemo/blob/main/HACKATHON.md">
+    <div class="cta-icon">
+      <svg viewBox="0 0 24 24" fill="#1a1a2e" xmlns="http://www.w3.org/2000/svg"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+    </div>
+    <h3>Start Building</h3>
+    <p class="cta-desc">Hackathon guide, team formation, schedule, awards, and the starter kit.</p>
+  </a>
+  <a class="cta-card discord" href="https://discord.gg/PCMcgK2P" target="_blank" rel="noopener">
+    <div class="cta-icon">
+      <svg viewBox="0 0 24 24" fill="#ffffff" xmlns="http://www.w3.org/2000/svg"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+    </div>
+    <h3>Join the Discord</h3>
+    <p class="cta-desc">Real-time chat, teams, help, and the Wall of Fails.</p>
+  </a>
+  <a class="cta-card" href="https://github.com/jymiller/creditmemo">
+    <div class="cta-icon code-icon">
+      <svg viewBox="0 0 24 24" fill="#ffffff" xmlns="http://www.w3.org/2000/svg"><path d="M9.4 16.6L4.8 12l4.6-4.6L8 6l-6 6 6 6 1.4-1.4zm5.2 0l4.6-4.6-4.6-4.6L16 6l6 6-6 6-1.4-1.4z"/></svg>
+    </div>
+    <h3>Clone the Repo</h3>
+    <p class="cta-desc">Starter kit, sample output, validator, schemas.</p>
+  </a>
+</div>
+
+<!-- HOW IT WORKS -->
+
+<div class="how-it-works">
+  <h2>How it works</h2>
+  <div class="steps">
+    <div class="step">
+      <h4>Clone and setup</h4>
+      <p><code>git clone</code> the repo. Run <code>setup-check.sh</code>. Look at <code>sample-output.json</code> to see what you're building toward.</p>
+    </div>
+    <div class="step">
+      <h4>Extract the PDF</h4>
+      <p>Use any stack, any AI, any approach. The starter kit has a quickstart script that extracts your first field in 5 minutes.</p>
+    </div>
+    <div class="step">
+      <h4>Check your score</h4>
+      <p>Run <code>python validate.py your-output.json</code> anytime. It tells you which checks pass and your current tier.</p>
+    </div>
+  </div>
+</div>
+
+<!-- VIDEO (demoted to supporting role) -->
 
 <a class="video-cta" href="https://www.loom.com/share/8e1d2384a0e642e8896f36a2a60927d9" target="_blank" rel="noopener">
   <div class="play-icon">
@@ -404,114 +576,70 @@
     </svg>
   </div>
   <div class="cta-content">
-    <div class="cta-label">Watch first</div>
-    <div class="cta-title">A walkthrough of the document set</div>
-    <div class="cta-desc">The business case and how the three documents fit together. A good starting point if you'd rather watch than read.</div>
+    <div class="cta-title">Watch the walkthrough</div>
+    <div class="cta-desc">The business case and how the pieces fit together. Good context if you want the full picture.</div>
   </div>
-  <div class="cta-host">Loom →</div>
 </a>
 
-<div class="section-label">The document set</div>
+<!-- DEEPER READING (pushed down) -->
+
+<div class="section-label">Want the deeper story?</div>
 
 <div class="doc-grid">
-
-  <a class="doc-card featured" href="one-page-brief.html">
-    <div class="doc-tag">Executive</div>
+  <a class="doc-card" href="one-page-brief.html">
+    <div class="doc-tag">3 min</div>
     <h3>One-Page Brief</h3>
-    <p class="doc-desc">The problem, the pattern, the before-and-after, and the key design decisions. For stakeholders who need the point in three minutes.</p>
+    <p class="doc-desc">The problem, the pattern, the before-and-after. Why this matters to a bank.</p>
     <div class="doc-meta">
-      <span>3 min read</span>
-      <span class="open-link">Open</span>
+      <span>Executive audience</span>
+      <span class="open-link">Read</span>
     </div>
   </a>
-
   <a class="doc-card" href="credit-memo-extraction-explainer.html">
-    <div class="doc-tag">Strategic</div>
+    <div class="doc-tag">12 min</div>
     <h3>Strategic Brief</h3>
-    <p class="doc-desc">The full business case. From dormant archive to proprietary data moat, framed as a four-stage supply chain with a compounding advantage. Includes the technical foundation for evaluators.</p>
+    <p class="doc-desc">The full business case. Why this data matters to a bank and what it's worth when it's unlocked.</p>
     <div class="doc-meta">
-      <span>12 min read</span>
-      <span class="open-link">Open</span>
+      <span>Mixed audience</span>
+      <span class="open-link">Read</span>
     </div>
   </a>
-
   <a class="doc-card" href="demo-requirements.html">
-    <div class="doc-tag">Technical</div>
-    <h3>Demo Requirements</h3>
-    <p class="doc-desc">Weekend hackathon specification with a locked Contract (schema, checks, scope, deliverables) and a Reference Implementation (stack, timeline, roles). Supports unified-team or bake-off formats.</p>
+    <div class="doc-tag">15 min</div>
+    <h3>The Full Spec</h3>
+    <p class="doc-desc">The complete scorecard, output schema, reference architecture, and timeline. For teams who want every detail.</p>
     <div class="doc-meta">
-      <span>15 min read</span>
-      <span class="open-link">Open</span>
-    </div>
-  </a>
-
-</div>
-
-<div class="reading-order">
-  <div class="label">Suggested reading order</div>
-  <p><strong>For executives and stakeholders:</strong> start with the One-Page Brief. If they want more, follow the link at the bottom to the Strategic Brief.</p>
-  <p><strong>For engineers evaluating feasibility:</strong> start with the Strategic Brief's technical foundation section, then jump to the Demo Requirements Contract (sections 1–9).</p>
-  <p><strong>For weekend hackathon participants:</strong> read the One-Page Brief for context, skim the Strategic Brief for the bigger picture, then work from the Demo Requirements — specifically The Contract — as the working spec.</p>
-</div>
-
-<div class="section-label">Join the hackathon</div>
-
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 32px;">
-  <a class="doc-card featured" href="https://github.com/jymiller/creditmemo/blob/main/HACKATHON.md">
-    <div class="doc-tag">Event Guide</div>
-    <h3>Hackathon Guide</h3>
-    <p class="doc-desc">The spirit, team formation, schedule, tiered success (Bronze/Silver/Gold), awards, and a starter kit that gets you running in 30 minutes.</p>
-    <div class="doc-meta">
-      <span>Start here if you're building</span>
-      <span class="open-link">Open</span>
-    </div>
-  </a>
-  <a class="doc-card" href="https://discord.gg/PCMcgK2P" target="_blank" rel="noopener" style="border-top: 3px solid #5865F2;">
-    <div class="doc-tag" style="background: #5865F2; color: white;">Discord</div>
-    <h3>Join the Discord</h3>
-    <p class="doc-desc">Real-time chat during the event. Team channels, help, wall of fails, and feedback. This is where the action happens.</p>
-    <div class="doc-meta">
-      <span>Chat with participants</span>
-      <span class="open-link">Join</span>
+      <span>Engineering audience</span>
+      <span class="open-link">Read</span>
     </div>
   </a>
 </div>
 
-<div class="section-label">For developers and the hackathon team</div>
+<!-- DEV LINKS -->
+
+<div class="section-label">Source files</div>
 
 <div class="dev-section">
-  <h2>Markdown and source files</h2>
-  <p>Developer-friendly Markdown versions of the same documents, plus the sample input PDF and the repository source. The Markdown files render natively on GitHub and are the recommended format for copy-paste into code, schemas, and repo READMEs.</p>
+  <h2>Repo and Markdown sources</h2>
+  <p>Everything is on GitHub. The Markdown versions render natively and are easy to copy into your own project.</p>
   <div class="dev-links">
-    <a class="dev-link" href="https://github.com/jymiller/creditmemo/blob/main/one-page-brief.md">
-      <div>
-        <div class="file">one-page-brief.md</div>
-        <div class="desc">Executive brief in Markdown</div>
-      </div>
+    <a class="dev-link" href="https://github.com/jymiller/creditmemo/blob/main/HACKATHON.md">
+      <div><div class="file">HACKATHON.md</div><div class="desc">Event guide and starter kit</div></div>
     </a>
     <a class="dev-link" href="https://github.com/jymiller/creditmemo/blob/main/demo-requirements.md">
-      <div>
-        <div class="file">demo-requirements.md</div>
-        <div class="desc">Hackathon spec in Markdown</div>
-      </div>
+      <div><div class="file">demo-requirements.md</div><div class="desc">Full scorecard and schema</div></div>
     </a>
     <a class="dev-link" href="https://github.com/jymiller/creditmemo/blob/main/Sample-Enhanced-Memo.pdf">
-      <div>
-        <div class="file">Sample-Enhanced-Memo.pdf</div>
-        <div class="desc">The input document the demo processes</div>
-      </div>
+      <div><div class="file">Sample-Enhanced-Memo.pdf</div><div class="desc">The 22-page input document</div></div>
     </a>
-    <a class="dev-link" href="https://github.com/jymiller/creditmemo">
-      <div>
-        <div class="file">github.com/jymiller/creditmemo</div>
-        <div class="desc">Repository source</div>
-      </div>
+    <a class="dev-link" href="https://github.com/jymiller/creditmemo/tree/main/starter-kit">
+      <div><div class="file">starter-kit/</div><div class="desc">Validator, quickstart, schemas, sample output</div></div>
     </a>
   </div>
 </div>
 
 <footer>
-  Hosted on GitHub Pages · Source on <a href="https://github.com/jymiller/creditmemo">GitHub</a>
+  An experiment in virtual hackathons · Source on <a href="https://github.com/jymiller/creditmemo">GitHub</a>
 </footer>
 
 </div>
