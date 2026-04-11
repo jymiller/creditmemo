@@ -118,6 +118,11 @@
   <p class="subtitle">Submitted pipeline design reviewed against the contract (demo-requirements.md sections 1-9).</p>
 </header>
 
+<div class="callout" style="background: var(--accent-soft); border-left-color: var(--accent);">
+  <div class="label" style="color: var(--accent);">Scope note</div>
+  <p>This review covers the <strong>Phase 1 (Crack the PDF)</strong> pipeline architecture — single credit memo, nine math checks, Bronze/Silver/Gold tiers. See the <a href="#phase2">Phase 2 implications</a> section at the end for how this architecture extends into the multi-document Loan File phase.</p>
+</div>
+
 <div class="verdict pass">
   Verdict: This design maps cleanly to the contract. One refinement recommended.
 </div>
@@ -261,6 +266,16 @@ python3 validate.py ../your-output.json</code></pre>
 <h2>Summary</h2>
 
 <p>This is a solid pipeline design. The six stages map directly to the seven functional outcomes in the contract. The validation gate is the right architectural choice. The one fix — looping remediated output back through the proofreader — is a refinement, not a redesign. If the extraction bundle is producing numbers, this team is tracking for Silver or Gold by Sunday.</p>
+
+<h2 id="phase2">Phase 2 implications</h2>
+
+<p>Phase 2 (The Loan File) introduces multiple document types — Personal Financial Statements, Rent Rolls, Appraisals, and scanned documents — with cross-document verification and an origination-vs.-servicing timeline. The current six-stage pipeline remains the core processing spine, but several extensions will be needed.</p>
+
+<p>First, a <strong>document classification stage</strong> will need to sit upstream of the current Ingest step. Where Phase 1 assumes a single credit memo PDF, Phase 2 must identify each document type in a loan file and route it to the appropriate specialized extractor. The existing "Route Pages" subprocess concept scales naturally here — it already dispatches to content-specific extraction bundles — but the routing taxonomy expands from page-level content types to document-level types.</p>
+
+<p>Second, <strong>cross-document verification</strong> introduces a new validation layer that doesn't exist in Phase 1. The current Validation Gate checks arithmetic within a single document; Phase 2 adds checks that compare values across documents (e.g., does the NOI on the Rent Roll match the NOI referenced in the Credit Memo?). This likely means a second validation pass after individual documents are processed, operating on the combined extracted data.</p>
+
+<p>Third, <strong>OCR handling for scanned documents</strong> adds confidence and quality considerations to the extraction pipeline. Scanned pages may produce lower-confidence text, which the proofreader and validation gate will need to account for — distinguishing between a genuine arithmetic error and an OCR misread requires different remediation strategies.</p>
 
 <footer>
   Reviewed against the <a href="../demo-requirements.html">Demo Requirements Contract</a> (sections 1-9) · Part of the <a href="https://jymiller.github.io/creditmemo/">Credit Memo Refinery Hackathon</a>

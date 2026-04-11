@@ -489,9 +489,9 @@
 <div class="page">
 
 <header class="hero">
-  <div class="eyebrow">Weekend Hackathon · Requirements v2.0</div>
+  <div class="eyebrow">Weekend Hackathon · Requirements v2.1 · Phase 1 &amp; Phase 2</div>
   <h1>Demo Requirements: The Refinery</h1>
-  <p class="subtitle">A two-day scope to prove Stage 2 of the credit memo supply chain works end-to-end on a single sample document.</p>
+  <p class="subtitle">A two-phase hackathon. Phase 1 — Crack the PDF: prove end-to-end extraction on a single credit memo. Phase 2 — The Loan File: cross-document verification across the full loan package.</p>
 </header>
 
 <div class="related">
@@ -615,7 +615,7 @@
 
 <div class="scope">
   <div class="scope-col in">
-    <h3>In scope</h3>
+    <h3>In scope (Phase 1)</h3>
     <ul>
       <li>Processing one PDF end-to-end</li>
       <li>Content-aware page routing</li>
@@ -630,11 +630,10 @@
     </ul>
   </div>
   <div class="scope-col out">
-    <h3>Out of scope</h3>
+    <h3>Out of scope (Phase 1)</h3>
     <ul>
       <li>Any Stage 3 (data estate) work</li>
       <li>Any Stage 4 (insight agents)</li>
-      <li>Multiple documents or cross-memo linking</li>
       <li>Authentication, access control, multi-user</li>
       <li>Persistent database beyond local files</li>
       <li>Production observability, SLAs, cost tracking</li>
@@ -644,6 +643,11 @@
       <li>Exhaustive field extraction — only what's needed to run §8</li>
     </ul>
   </div>
+</div>
+
+<div class="callout">
+  <div class="label">Phase 2 scope</div>
+  <p>Multiple documents and cross-document linking (PFS, Rent Roll, Appraisal, scanned docs), cross-document verification and reconciliation, and origination vs. servicing timeline dimension are all <strong>Phase 2 — The Loan File</strong> scope. See §17 at the end of this document for the full preview.</p>
 </div>
 
 <h2>5. Success criteria <span class="badge locked">Locked</span></h2>
@@ -1028,8 +1032,67 @@ class CreditMemo(BaseModel):
   </tbody>
 </table>
 
+<!-- =========================================================== -->
+<!-- PHASE 2 PREVIEW                                             -->
+<!-- =========================================================== -->
+
+<div class="zone-divider contract" style="background: linear-gradient(135deg, var(--ink) 0%, #2a2a4e 100%);">
+  <div class="zone-label">Phase 2 Preview</div>
+  <h2>17. The Loan File</h2>
+  <p>Phase 1 proves the refinery on a single credit memo. Phase 2 extends the challenge to the full loan file — multiple document types, cross-document verification, and a time dimension.</p>
+</div>
+
+<h2>Document types</h2>
+<p>Phase 2 introduces a loan file containing several document types beyond the credit memo:</p>
+
+<table>
+  <thead>
+    <tr><th>Document</th><th>Description</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Personal Financial Statement (PFS)</td><td>Borrower/guarantor assets, liabilities, income — must reconcile with credit memo net worth figures</td></tr>
+    <tr><td>Rent Roll</td><td>Unit-level rent schedule at a point in time — must reconcile with memo gross rents and operating statements</td></tr>
+    <tr><td>Appraisal</td><td>Third-party valuation report — must reconcile with memo collateral value, LTV, and property description</td></tr>
+    <tr><td>Scanned documents</td><td>Signed forms, tax returns, bank statements — OCR-dependent, lower structure</td></tr>
+  </tbody>
+</table>
+
+<h2>Cross-document checks</h2>
+<p>The core challenge of Phase 2 is verifying consistency across documents:</p>
+<ul>
+  <li>PFS net worth vs. credit memo guarantor net worth (C2/C3/C4 values should trace to PFS line items)</li>
+  <li>Rent roll unit rents vs. credit memo gross rents (C8/C9 values should match rent roll totals)</li>
+  <li>Appraisal value vs. credit memo collateral value and LTV calculation</li>
+  <li>Income figures on PFS vs. cash flow tables in credit memo</li>
+  <li>Property address and description consistency across all documents</li>
+</ul>
+
+<h2>Timeline dimension</h2>
+<p>Phase 2 adds an origination vs. servicing distinction:</p>
+<ul>
+  <li><strong>Origination:</strong> Documents as they existed at loan closing — the baseline truth</li>
+  <li><strong>Servicing:</strong> Updated documents during the life of the loan (annual reviews, renewed PFS, updated rent rolls)</li>
+  <li>The system must track which version of a document it is processing and flag inconsistencies between origination and servicing snapshots</li>
+</ul>
+
+<h2>Phase 2 tiers</h2>
+
+<table>
+  <thead>
+    <tr><th>Tier</th><th>Name</th><th>Criteria</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Bronze</td><td>Pipeline</td><td>Process all document types in the loan file independently; extract structured data from each</td></tr>
+    <tr><td>Silver</td><td>Crosscheck</td><td>Cross-document verification passes — values that appear in multiple documents are reconciled and discrepancies flagged</td></tr>
+    <tr><td>Gold</td><td>Platinum</td><td>Full timeline support — origination vs. servicing snapshots tracked, with drift detection across time</td></tr>
+  </tbody>
+</table>
+
+<h3>Relationship to Phase 1</h3>
+<p>Phase 1 tiers (Bronze/Silver/Gold based on checks C1–C9) remain the entry point. A team must achieve at least Phase 1 Silver (6+ checks passing) before attempting Phase 2. The Phase 1 credit memo extraction becomes one component of the larger Phase 2 loan file pipeline.</p>
+
 <footer>
-  Requirements v2.0 · Contract/Reference split · Companion to the <a href="credit-memo-extraction-explainer.html">Strategic Brief</a>
+  Requirements v2.1 · Two-phase structure · Contract/Reference split · Companion to the <a href="credit-memo-extraction-explainer.html">Strategic Brief</a>
 </footer>
 
 </div>

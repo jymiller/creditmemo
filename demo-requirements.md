@@ -1,7 +1,8 @@
 # Credit Memo Demo — Requirements
 
-**Version:** 2.0 (contract/reference split)
-**Scope:** Weekend hackathon
+**Version:** 2.1 (two-phase structure)
+**Scope:** Weekend hackathon (Phase 1) + extended sprint (Phase 2)
+**Phase:** This document primarily covers **Phase 1 — Crack the PDF** (single credit memo extraction and verification). Phase 2 preview is at the end.
 **Input:** `Sample-Enhanced-Memo.pdf` (22 pages, 1.1 MB)
 **Companion to:** [Strategic Brief](credit-memo-extraction-explainer.html) — frozen as the source of high-level requirements
 
@@ -97,15 +98,19 @@ Stages 1, 3, and 4 are acknowledged but out of scope. See the strategic brief di
 - Source-page provenance for every populated field
 - A five-minute demo walkthrough
 
-### Out of scope
+### Out of scope (Phase 1)
 - Any Stage 3 (data estate) work
 - Any Stage 4 (insight agents)
-- Multiple documents or cross-memo linking
 - AuthN/AuthZ, multi-user, persistence beyond local files
 - Production observability, cost tracking, SLAs
 - Template drift across memo versions
 - PII handling, anonymization, compliance review
 - Exhaustive field extraction — only what's needed to run §8
+
+### Phase 2 scope (see §17 for details)
+- Multiple documents and cross-document linking (PFS, Rent Roll, Appraisal, scanned docs)
+- Cross-document verification and reconciliation
+- Origination vs. servicing timeline dimension
 
 ## 5. Success criteria [LOCKED]
 
@@ -391,4 +396,53 @@ A suggested five-minute walkthrough. Teams may adapt the structure; the content 
 
 ---
 
-*Requirements v2.0 · Contract/Reference split · Companion to the Strategic Brief · Hackathon scope*
+---
+
+## 17. Phase 2 — The Loan File (Preview)
+
+Phase 1 proves the refinery on a single credit memo. Phase 2 extends the challenge to the full loan file — multiple document types, cross-document verification, and a time dimension.
+
+### Document types
+
+Phase 2 introduces a loan file containing several document types beyond the credit memo:
+
+| Document | Description |
+|---|---|
+| Personal Financial Statement (PFS) | Borrower/guarantor assets, liabilities, income — must reconcile with credit memo net worth figures |
+| Rent Roll | Unit-level rent schedule at a point in time — must reconcile with memo gross rents and operating statements |
+| Appraisal | Third-party valuation report — must reconcile with memo collateral value, LTV, and property description |
+| Scanned documents | Signed forms, tax returns, bank statements — OCR-dependent, lower structure |
+
+### Cross-document checks
+
+The core challenge of Phase 2 is verifying consistency across documents:
+
+- PFS net worth vs. credit memo guarantor net worth (C2/C3/C4 values should trace to PFS line items)
+- Rent roll unit rents vs. credit memo gross rents (C8/C9 values should match rent roll totals)
+- Appraisal value vs. credit memo collateral value and LTV calculation
+- Income figures on PFS vs. cash flow tables in credit memo
+- Property address and description consistency across all documents
+
+### Timeline dimension
+
+Phase 2 adds an origination vs. servicing distinction:
+
+- **Origination:** Documents as they existed at loan closing — the baseline truth
+- **Servicing:** Updated documents during the life of the loan (annual reviews, renewed PFS, updated rent rolls)
+- The system must track which version of a document it is processing and flag inconsistencies between origination and servicing snapshots
+
+### Phase 2 tiers
+
+| Tier | Name | Criteria |
+|---|---|---|
+| Bronze | Pipeline | Process all document types in the loan file independently; extract structured data from each |
+| Silver | Crosscheck | Cross-document verification passes — values that appear in multiple documents are reconciled and discrepancies flagged |
+| Gold | Platinum | Full timeline support — origination vs. servicing snapshots tracked, with drift detection across time |
+
+### Relationship to Phase 1
+
+Phase 1 tiers (Bronze/Silver/Gold based on checks C1-C9) remain the entry point. A team must achieve at least Phase 1 Silver (6+ checks passing) before attempting Phase 2. The Phase 1 credit memo extraction becomes one component of the larger Phase 2 loan file pipeline.
+
+---
+
+*Requirements v2.1 · Two-phase structure · Contract/Reference split · Companion to the Strategic Brief · Hackathon scope*

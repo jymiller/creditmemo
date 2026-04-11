@@ -1,20 +1,28 @@
 #!/usr/bin/env python3
 """
-Credit Memo Proofreader — validates extraction output against the contract.
+Phase 1 Validator — Credit Memo Proofreader.
+
+Validates extraction output from a single credit memo PDF against the contract.
+This is the Phase 1 ("Crack the PDF") validator for the hackathon.
 
 Usage:
     python validate.py output.json
     python validate.py ../sample-output.json   # test against the reference
 
-Runs the 9 mandatory checks from demo-requirements.md section 8.
+Runs the 9 mandatory math checks (C1-C9) from demo-requirements.md section 8.
 Prints a colored pass/fail report and a tier summary.
 
-Tiers:
+Phase 1 Tiers:
     Bronze  (3 checks)  C1, C5, C8           "I can extract numbers and the math adds up"
     Silver  (6 checks)  + C2, C4, C9         "I can extract tables and cross-reference pages"
     Gold    (all 9)     + C3, C6, C7          "Full contract satisfied"
 
 No dependencies beyond Python stdlib. Runs anywhere.
+
+NOTE: Phase 2 ("The Loan File") introduces multiple document types (PFS, rent rolls,
+appraisals, scanned docs) and cross-document verification across origination and
+servicing timelines. Phase 2 will require a separate cross-document validator with
+its own tier structure (Pipeline / Crosscheck / Platinum).
 """
 
 import json

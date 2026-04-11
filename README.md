@@ -2,7 +2,7 @@
 
 **Can you teach an AI to read a credit memo?**
 
-A 22-page PDF. Nine math checks hidden inside it. Your AI teammate. Whatever tools you want. Go.
+Two phases. One loan. From a single PDF to a full loan file. Your AI teammate. Whatever tools you want. Go.
 
 [![Deploy to GitHub Pages](https://github.com/jymiller/creditmemo/actions/workflows/pages.yml/badge.svg)](https://github.com/jymiller/creditmemo/actions/workflows/pages.yml)
 
@@ -11,6 +11,10 @@ A 22-page PDF. Nine math checks hidden inside it. Your AI teammate. Whatever too
 ## The Challenge
 
 ### → [jymiller.github.io/creditmemo](https://jymiller.github.io/creditmemo/)
+
+---
+
+### Phase 1 — Crack the PDF
 
 We give you one real credit memo — a $514,500 multifamily loan in Philadelphia. It has form fields, financial tables, analyst commentary, infographics, and property photos. Every content type that makes PDF extraction hard.
 
@@ -21,6 +25,22 @@ Your job: extract structured data from it, verify the math, and show where every
 | **Bronze** (3 of 9 checks) | "I can extract numbers and the math adds up" |
 | **Silver** (6 of 9 checks) | "I can extract tables and cross-reference across pages" |
 | **Gold** (all 9 checks) | "Every check passes. Full scorecard satisfied." |
+
+---
+
+### Phase 2 — The Loan File
+
+Expand from one PDF to a full loan file: Personal Financial Statement, Rent Roll, Appraisal Summary, and scanned documents like tax returns. The challenge shifts from single-document extraction to cross-document verification and auto-classification.
+
+New dimensions: net worth reconciliation, LTV validation, income consistency, guarantor consistency, document auto-classification, and an origination vs. servicing timeline.
+
+| Tier | What it means |
+|---|---|
+| **Pipeline** (auto-classify 3+ doc types) | "My system identifies document types without being told" |
+| **Crosscheck** (cross-document verification passes) | "Numbers reconcile across documents" |
+| **Platinum** (handle scans, timeline, full loan file) | "Full loan file processed — scans, timeline, everything." |
+
+---
 
 **[Join the Discord](https://discord.gg/PCMcgK2P)** to find a team, get help, and share your best extraction failures.
 
@@ -42,13 +62,13 @@ Then build your own solution and run `python3 validate.py your-output.json` to c
 
 ## What's in the repo
 
-### The challenge
+### The challenge (Phase 1 and Phase 2)
 
 | File | What it is |
 |---|---|
 | [`HACKATHON.md`](HACKATHON.md) | Event guide — spirit, teams, schedule, tiers, awards |
-| [`demo-requirements.md`](demo-requirements.md) | The scorecard, output schema, and full spec for teams who want every detail |
-| [`Sample-Enhanced-Memo.pdf`](Sample-Enhanced-Memo.pdf) | The 22-page input document |
+| [`demo-requirements.md`](demo-requirements.md) | Phase 1 scorecard, output schema, and full spec |
+| [`Sample-Enhanced-Memo.pdf`](Sample-Enhanced-Memo.pdf) | Phase 1 input — the 22-page credit memo |
 
 ### Starter kit
 
@@ -84,7 +104,7 @@ If you want to understand why a bank would care about this problem:
 5. **Run `validate.py` early and often** — it's a tool for building, not a final exam
 6. **Demo at 5pm Sunday PT** — 5 minutes, show what you built and what you learned
 
-Bronze is a win. Gold is a flex. Both get celebrated. The best hackathon outcome is not the code — it's the team that built it and the things they learned.
+Bronze is a win. Gold is a flex. Phase 2 is the deep end. All tiers get celebrated. The best hackathon outcome is not the code — it's the team that built it and the things they learned.
 
 ---
 
