@@ -257,9 +257,10 @@
   </div>
 </div>
 
-<h2>Scope — what the demo deliberately does not do</h2>
-<p>The weekend demo builds the refinery itself on one sample memo. It does not build the data warehouse, the downstream insight agents, template-drift handling across memo versions, multi-document linking, persistent storage, authentication, or compliance workflows.</p>
-<p>This is deliberate. Proving the hardest and least-proven link — extraction with verification — is the credibility anchor for the entire business case. Overreaching would produce half-baked work on everything and a clean demo of nothing. Strategic judgment here is knowing that a narrow, trustworthy demo wins an investor conversation that a broad, hand-wavy demo loses.</p>
+<h2>Scope — two phases</h2>
+<p><strong>Phase 1</strong> builds the refinery on one sample credit memo — extraction with arithmetic verification. This proves the hardest and least-proven link: can AI extract data from a complex PDF and can we <em>prove</em> it got the numbers right?</p>
+<p><strong>Phase 2</strong> expands to the full loan file. A real credit decision touches many document types — personal financial statements, rent rolls, appraisals, scanned tax returns. Phase 2 asks teams to build a pipeline that classifies documents, routes them to specialized extractors, and verifies data <em>across</em> documents. It also introduces the time dimension: origination documents vs. servicing reviews years later. This is what it takes to scale to <span class="pop">2,000+ loan files</span>.</p>
+<p>Both phases deliberately exclude the data warehouse, downstream insight agents, persistent storage, authentication, and compliance workflows. The focus is the extraction pipeline — because that is the credibility anchor for the entire business case.</p>
 
 <footer>
   Companion to the <a href="credit-memo-extraction-explainer.html">Strategic Brief</a> and the <a href="demo-requirements.html">Demo Requirements</a>.

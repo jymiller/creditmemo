@@ -71,7 +71,7 @@ A two-person team can combine roles. A solo participant can do all four with an 
 
 ---
 
-## The challenge
+## Phase 1 — Crack the PDF
 
 **One PDF goes in. Verified structured data comes out.**
 
@@ -86,7 +86,7 @@ The full scorecard is in [demo-requirements.md](demo-requirements.md) sections 5
 - **Show provenance** — for any extracted value, point at the source page
 - **Demo it** in a 5-minute walkthrough Sunday afternoon
 
-### Tiers — what "done" looks like
+### Phase 1 tiers — what "done" looks like
 
 | Tier | Checks passing | What it proves |
 |---|---|---|
@@ -95,6 +95,59 @@ The full scorecard is in [demo-requirements.md](demo-requirements.md) sections 5
 | **Gold** | All 9 | "Every check passes. Full scorecard satisfied." |
 
 **Bronze is a win.** Say it again: Bronze is a win. A team that hits Bronze built a working extraction pipeline with verification in a weekend. That's not trivial.
+
+---
+
+## Phase 2 — The Loan File
+
+**Phase 1 proves extraction works on one document. Phase 2 proves it scales.**
+
+A real loan file isn't one PDF — it's a folder. A single credit decision touches many document types that arrive at different times across the life of a loan. Banks have 2,000+ of these files sitting in file shares. To unlock that data, you need a pipeline that can handle all of them — not just the credit memo.
+
+Phase 2 gives you a loan file folder containing multiple document types. Your system must classify each document, route it to the right extractor, and verify data *across* documents.
+
+### The document types
+
+| Document | What it contains | Why it's hard |
+|---|---|---|
+| **Credit Memo** | The Phase 1 PDF — loan terms, financials, analyst narrative | Form fields, tables, narrative, photos — you already know |
+| **Personal Financial Statement (PFS)** | Borrower's net worth, liquidity, assets and liabilities | Dense tables, handwritten entries, inconsistent formats |
+| **Rent Roll** | Unit-level income for the property — unit number, tenant, rent, vacancy | Tabular but messy — merged cells, footnotes, partial occupancy |
+| **Appraisal Summary** | Property valuation, comparable sales, condition assessment | Mix of structured data and narrative opinions |
+| **Scanned Documents** | Tax returns, insurance certs, environmental reports | OCR quality varies — faded ink, skewed pages, stamps over text |
+
+### Cross-document verification checks
+
+Phase 1 checks math *within* a single document. Phase 2 checks consistency *across* documents:
+
+- **Net worth reconciliation** — Does the borrower's net worth on the PFS match the figure cited in the credit memo?
+- **LTV validation** — Does the appraised value from the appraisal summary support the loan-to-value ratio in the loan terms?
+- **Income consistency** — Do the rents on the rent roll tie to the income assumptions in the credit memo's cash flow analysis?
+- **Guarantor consistency** — Is guarantor information (name, ownership %, net worth) consistent across all documents that reference it?
+
+### The timeline dimension
+
+Loan files grow over time. At origination, you get the initial credit memo, appraisal, and PFS. During servicing, annual reviews add updated financials, new rent rolls, and covenant compliance checks. Phase 2 includes documents from two points in time:
+
+- **Origination** — The initial loan package
+- **Servicing review (2 years later)** — Updated financials and property performance
+
+New checks:
+- How did NOI change between origination and the latest review?
+- Did the borrower's net worth improve or deteriorate?
+- Are there covenant violations based on the original loan terms?
+
+### Phase 2 tiers
+
+| Tier | What it proves |
+|---|---|
+| **Pipeline** | Auto-classify 3+ document types and extract structured data from each |
+| **Crosscheck** | Pass cross-document verification — data reconciles between documents |
+| **Platinum** | Handle scanned documents via OCR, origination vs. servicing timeline, full loan file assembled |
+
+### Why Phase 2 matters
+
+Phase 1 answers "can you extract one document?" Phase 2 answers "can you build a system that scales to 2,000+ loan files?" That's the difference between a demo and a product. Teams that reach Phase 2 are building the kind of flexible, multi-document pipeline that actually solves the bank's problem.
 
 ---
 

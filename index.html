@@ -189,6 +189,70 @@
     line-height: 1.4;
   }
 
+  /* -- Phase 2 block -- */
+  .phase2 {
+    margin: 0 0 52px;
+    padding: 36px 36px 32px;
+    background: var(--accent-soft);
+    border: 2px solid var(--accent);
+    border-radius: 14px;
+  }
+  .phase2 h2 { color: var(--accent); margin-bottom: 10px; }
+  .phase2 p { margin: 0 0 16px; font-size: 16px; }
+  .phase2 p:last-of-type { margin-bottom: 0; }
+  .phase-label {
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+  .doc-types {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 20px 0;
+  }
+  .doc-type {
+    padding: 14px 16px;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  .doc-type h4 {
+    margin: 0 0 4px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+  .doc-type p {
+    margin: 0;
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+  .cross-checks {
+    margin: 20px 0 0;
+    padding: 16px 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+  }
+  .cross-checks h4 {
+    margin: 0 0 8px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent);
+  }
+  .cross-checks ul {
+    margin: 0;
+    padding-left: 18px;
+    font-size: 13px;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
   /* -- CTA row -- */
   .cta-row {
     display: grid;
@@ -454,7 +518,7 @@
 
   /* -- Responsive -- */
   @media (max-width: 820px) {
-    .questions, .cta-row, .steps, .doc-grid, .dev-links { grid-template-columns: 1fr; }
+    .questions, .cta-row, .steps, .doc-grid, .dev-links, .doc-types { grid-template-columns: 1fr; }
     .tiers { grid-template-columns: 1fr; }
   }
   @media (max-width: 600px) {
@@ -502,7 +566,8 @@
 <!-- THE CHALLENGE -->
 
 <div class="challenge">
-  <h2>The Challenge</h2>
+  <div class="phase-label">Phase 1 — Crack the PDF</div>
+  <h2>One memo. Nine checks. Prove it works.</h2>
   <p>We give you one real credit memo — a 22-page PDF for a $514,500 multifamily loan in Philadelphia. It has form fields, financial tables, analyst commentary, infographics, and property photos. Every content type that makes PDF extraction hard.</p>
   <p>Your job: extract structured data from it, verify the math, and show where every number came from. Use any language, any framework, any AI. The only thing that matters is whether your output passes the scorecard.</p>
 
@@ -518,6 +583,57 @@
     <div class="tier">
       <div class="tier-name" style="color: var(--gold);">Gold</div>
       <div class="tier-desc">All 9. "Every check passes." Full scorecard satisfied.</div>
+    </div>
+  </div>
+</div>
+
+<div class="phase2">
+  <div class="phase-label">Phase 2 — The Loan File</div>
+  <h2>Multiple documents. Cross-document verification. Build the pipeline.</h2>
+  <p>A real loan file isn't one PDF — it's a folder. Credit memos, personal financial statements, rent rolls, appraisals, scanned tax returns. Phase 2 gives you the full picture and asks: can your pipeline handle all of it?</p>
+  <p>Your system classifies each document, routes it to the right extractor, and verifies data <em>across</em> documents — not just within one. This is what it takes to scale to 2,000+ memos.</p>
+
+  <div class="doc-types">
+    <div class="doc-type">
+      <h4>Personal Financial Statement</h4>
+      <p>Net worth, liquidity, assets and liabilities. Does it match what the credit memo says?</p>
+    </div>
+    <div class="doc-type">
+      <h4>Rent Roll</h4>
+      <p>Unit-level income for the property. Do the rents tie to the cash flow analysis?</p>
+    </div>
+    <div class="doc-type">
+      <h4>Appraisal Summary</h4>
+      <p>Property valuation and comparable sales. Does the appraised value support the LTV?</p>
+    </div>
+    <div class="doc-type">
+      <h4>Scanned Documents</h4>
+      <p>Tax returns, insurance certs, environmental reports. OCR quality varies. Can your pipeline handle it?</p>
+    </div>
+  </div>
+
+  <div class="cross-checks">
+    <h4>Cross-document verification checks</h4>
+    <ul>
+      <li>Borrower net worth on PFS matches the credit memo citation</li>
+      <li>Appraised value supports the LTV ratio in the loan terms</li>
+      <li>Rent roll income ties to the cash flow projections</li>
+      <li>Guarantor data is consistent across all documents</li>
+    </ul>
+  </div>
+
+  <div class="tiers" style="margin-top: 24px;">
+    <div class="tier">
+      <div class="tier-name" style="color: var(--accent);">Pipeline</div>
+      <div class="tier-desc">Auto-classify 3+ document types and extract structured data from each.</div>
+    </div>
+    <div class="tier">
+      <div class="tier-name" style="color: var(--accent);">Crosscheck</div>
+      <div class="tier-desc">Pass cross-document verification — data reconciles between documents.</div>
+    </div>
+    <div class="tier">
+      <div class="tier-name" style="color: var(--accent);">Platinum</div>
+      <div class="tier-desc">Handle scans via OCR, origination vs. servicing timeline, full loan file.</div>
     </div>
   </div>
 </div>

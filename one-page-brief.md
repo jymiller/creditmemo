@@ -46,11 +46,13 @@ Three choices that are not obvious and that carry the whole architecture.
 
 3. **The contract is arithmetic, not vibes.** Every acceptance check in the demo is a specific equation with a specific expected value drawn from the real document. AI output looks trustworthy; arithmetic is the only way to prove it actually is.
 
-## Scope — what the demo deliberately does not do
+## Scope — two phases
 
-The weekend demo builds the refinery itself on one sample memo. It does not build the data warehouse, the downstream insight agents, template-drift handling across memo versions, multi-document linking, persistent storage, authentication, or compliance workflows.
+**Phase 1** builds the refinery on one sample credit memo — extraction with arithmetic verification. This proves the hardest and least-proven link: can AI extract data from a complex PDF and can we *prove* it got the numbers right?
 
-This is deliberate. Proving the hardest and least-proven link — extraction with verification — is the credibility anchor for the entire business case. Overreaching would produce half-baked work on everything and a clean demo of nothing. Strategic judgment here is knowing that a narrow, trustworthy demo wins an investor conversation that a broad, hand-wavy demo loses.
+**Phase 2** expands to the full loan file. A real credit decision touches many document types — personal financial statements, rent rolls, appraisals, scanned tax returns. Phase 2 asks teams to build a pipeline that classifies documents, routes them to specialized extractors, and verifies data *across* documents. It also introduces the time dimension: origination documents vs. servicing reviews years later. This is what it takes to scale to **2,000+ loan files**.
+
+Both phases deliberately exclude the data warehouse, downstream insight agents, persistent storage, authentication, and compliance workflows. The focus is the extraction pipeline — because that is the credibility anchor for the entire business case.
 
 ---
 
